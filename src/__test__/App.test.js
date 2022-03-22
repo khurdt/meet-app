@@ -1,14 +1,19 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import App from '../App';
-import EventList from '../EventList';
-import CitySearch from '../CitySearch';
+import App from '../components/App';
+import EventList from '../components/EventList';
+import CitySearch from '../components/CitySearch';
+import NumberOfEvents from '../components/NumberOfEvents';
 
 //test suite
 describe('<App /> components', () => {
   let AppWrapper;
   beforeAll(() => {
     AppWrapper = shallow(<App />);
+  })
+
+  test('render NumberOfEvents', () => {
+    expect(AppWrapper.find(NumberOfEvents)).toHaveLength(1);
   })
 
   test('render list of events', () => {
