@@ -32,7 +32,7 @@ class App extends Component {
 
   updateEvents = (location) => {
     getEvents().then((events) => {
-      const locationEvents = (location === 'all') ?
+      const locationEvents = (location === '') ?
         events
         :
         events.filter((event) => event.location === location);

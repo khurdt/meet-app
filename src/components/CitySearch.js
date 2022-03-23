@@ -17,7 +17,7 @@ class CitySearch extends React.Component {
     })
     if (newValue === '') {
       this.setState({ query: newValue, suggestion: [''] });
-      this.props.updateEvents('all');
+      this.props.updateEvents('');
     } else {
       this.setState({ query: newValue, suggestions: suggestions });
     }
@@ -58,7 +58,7 @@ class CitySearch extends React.Component {
                 ))}
                 <li
                   style={{ cursor: 'pointer' }}
-                  onClick={() => this.handleItemClicked('all')}>
+                  onClick={() => this.handleItemClicked('')}>
                   <b>See all cities</b>
                 </li>
               </ul>
