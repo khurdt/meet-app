@@ -1,10 +1,11 @@
 import React from 'react';
+import { Form } from 'react-bootstrap';
 
 class NumberOfEvents extends React.Component {
   constructor() {
     super();
     this.state = {
-      eventsNumber: 0,
+      eventsNumber: 0
     };
   }
 
@@ -22,14 +23,20 @@ class NumberOfEvents extends React.Component {
     const { eventsNumber } = this.state;
 
     return (
-      <input
-        className='numberOfEvents'
-        type='number'
-        max={100}
-        min={1}
-        value={eventsNumber}
-        onChange={this.handleEventNumber}
-      />
+      <Form>
+        <Form.Group>
+          <Form.Label htmlFor='eventNumber'>Number of Events</Form.Label>
+          <Form.Control
+            style={{ maxWidth: '120px', textAlign: 'center' }}
+            className='numberOfEvents'
+            type='number'
+            max={numberOfEvents}
+            min={1}
+            value={eventsNumber}
+            onChange={(e) => this.handleEventNumber(e)}
+          />
+        </Form.Group>
+      </Form>
     );
   }
 }

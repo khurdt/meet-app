@@ -1,18 +1,21 @@
 import React, { Component } from "react";
+import { Col, Row } from "react-bootstrap";
 import Event from "./Event";
+import NumberOfEvents from "./NumberOfEvents";
 
 class EventList extends Component {
   render() {
     const { events } = this.props;
     return (
-      <ul className="EventList">
-        {events.map(event =>
-          <li key={event.id}>
+      <>
+        <NumberOfEvents numberOfEvents={events.length} />
+        <Row style={{ listStyleType: 'none' }} className="EventList">
+          {events.map(event =>
             <Event event={event} />
-          </li>
-        )}
-      </ul>
-    )
+          )}
+        </Row>
+      </>
+    );
   }
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 
 class CitySearch extends React.Component {
   constructor() {
@@ -14,38 +15,59 @@ class CitySearch extends React.Component {
     const suggestions = this.props.locations.filter((location) => {
       return location.toUpperCase().indexOf(newValue.toUpperCase()) > -1;
     })
-    this.setState({
-      query: newValue,
-      suggestions
-    });
+    if (newValue === '') {
+      this.setState({ query: newValue, suggestion: [''] });
+      this.props.updateEvents('all');
+    } else {
+      this.setState({ query: newValue, suggestions: suggestions });
+    }
   }
 
   handleItemClicked = (suggestion) => {
     this.setState({
       query: suggestion
-    })
+    });
+    this.props.updateEvents(suggestion);
   }
 
   render() {
+    let searching = false;
+    if (this.state.query !== '') {
+      searching = true
+    } else {
+      searching = false
+    }
     return (
-      <div className='CitySearch'>
-        <input
-          type='text'
-          className='city'
-          value={this.state.query}
-          onChange={this.handleInputChanged} />
-        <ul className='suggestions'>
-          {this.state.suggestions.map((suggestion) => (
-            <li
-              key={suggestion}
-              onClick={() => this.handleItemClicked(suggestion)}
-            >{suggestion}</li>
-          ))}
-          <li key='all'>
-            <b>see all cities</b>
-          </li>
-        </ul>
-      </div>
+      <Container className='CitySearch'>
+        <Form>
+          <Form.Group className='m-auto' style={{ maxWidth: '200px' }}>
+            <Form.Control
+              type='text'
+              className='city m-3'
+              placeholder='search for cities'
+              value={this.state.query}
+              onChange={this.handleInputChanged} />
+            {searching ? (
+              <ul style={{ listStyleType: 'none', position: 'absolute' }} className="suggestions">
+                {this.state.suggestions.map((suggestion) => (
+                  <li
+                    style={{ cursor: 'pointer' }}
+                    key={suggestion}
+                    onClick={() => this.handleItemClicked(suggestion)}
+                  >{suggestion}</li>
+                ))}
+                <li
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => this.handleItemClicked('all')}>
+                  <b>See all cities</b>
+                </li>
+              </ul>
+            ) : (
+              <div></div>
+            )}
+          </Form.Group>
+        </Form>
+      </Container>
     );
   }
 }
