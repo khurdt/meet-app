@@ -5,13 +5,16 @@ import NumberOfEvents from "./NumberOfEvents";
 
 class EventList extends Component {
   render() {
-    const { events } = this.props;
+    const { events, updateEvents, suggestion } = this.props;
+
     return (
       <>
-        <NumberOfEvents numberOfEvents={events.length} />
+        <NumberOfEvents events={events} updateEvents={updateEvents} suggestion={suggestion} />
         <Row style={{ listStyleType: 'none' }} className="EventList">
           {events.map(event =>
-            <Event event={event} />
+            <Col key={event.id}>
+              <Event event={event} />
+            </Col>
           )}
         </Row>
       </>

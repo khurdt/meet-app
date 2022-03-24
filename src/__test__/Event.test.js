@@ -1,11 +1,13 @@
 import React from "react";
 import { shallow } from "enzyme";
 import Event from "../components/Event";
+import { mockEvents } from "../components/mock-data";
 
 describe('<EventList /> component', () => {
-  let EventWrapper;
+  let event, EventWrapper;
   beforeAll(() => {
-    EventWrapper = shallow(<Event />)
+    event = mockEvents[0];
+    EventWrapper = shallow(<Event event={event} />)
   })
 
   test('render event title', () => {
@@ -51,7 +53,7 @@ describe('<EventList /> component', () => {
     expect(EventWrapper.find('.noDetails')).toHaveLength(1);
   })
 
-  test('make state of showDetaisl to be false', () => {
+  test('make state of showDetails to be false', () => {
     EventWrapper.setState({ showDetails: true });
     EventWrapper.find('.show-button').simulate('click');
     expect(EventWrapper.state('showDetails')).toBe(false);

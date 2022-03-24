@@ -1,44 +1,59 @@
 import React from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import './App.css'
+import { Card, Button, Row, Col, Modal } from 'react-bootstrap';
+import { ArrowRight, ArrowDown } from 'react-feather';
 
 class Event extends React.Component {
   constructor() {
     super();
     this.state = {
-      showDetails: false
+      show: false
     };
   }
 
-  handleEventClick = () => {
-    if (this.state.showDetails === false) {
-      this.setState({ showDetails: true });
-    } else if (this.state.showDetails === true) {
-      this.setState({ showDetails: false });
-    }
+  handleClose = () => {
+    this.setState({ show: false });
+  }
+  handleShow = () => {
+    this.setState({ show: true });
   }
 
   render() {
-    const { showDetails } = this.state;
+    const { show } = this.state;
     const { event } = this.props;
     const formattedDate = event.start.dateTime.slice(0, 10);
     const formattedTime = event.start.dateTime.slice(11, 16);
 
     return (
-      <Card key={event.id} className='m-2 mt-3 p-2' style={{ maxWidth: '400px' }}>
-        <Card.Title className='eventTitle'>{event.summary}</Card.Title>
-        <Card.Text>{formattedDate} <span style={{ paddingRight: '10px' }} >{formattedTime}</span>|<span style={{ paddingLeft: '10px' }}>{event.location}</span></Card.Text>
-        {showDetails ? (
-          <Card.Text className='showDetails'>{event.description}</Card.Text>
-        ) : (
-          <div className='noDetails' />
-        )}
-        <Col md={{ offset: 9 }}>
-          <Button
-            className='show-button ml-auto'
-            style={{ height: '30px', width: '100px', fontSize: '12px' }}
-            onClick={this.handleEventClick}>More Info</Button>
-        </Col>
-      </Card>
+      <>
+        <div key={event.id} className='p-2 m-3 event-card' style={{ width: '300px', height: '100px' }}>
+          <Row>
+            <Col>
+              <Card.Title className='eventTitle'>{event.summary}</Card.Title>
+            </Col>
+            <ArrowRight
+              className='show-button'
+              style={{ height: '30px', maxWidth: '50px', marginRight: '15px' }}
+              onClick={this.handleShow} />
+          </Row>
+          <Card.Text className='m-2'>
+            {formattedDate}<span style={{ paddingRight: '10px' }}>
+              {formattedTime}</span>|<span style={{ paddingLeft: '10px' }}>
+              {event.location}</span>
+          </Card.Text>
+        </div>
+        <Modal show={show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{event.summary}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{event.description}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
     );
   }
 }

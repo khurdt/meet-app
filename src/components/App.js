@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../nprogress.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import './App.css';
 import EventList from './EventList';
@@ -10,7 +11,9 @@ class App extends Component {
     super();
     this.state = {
       events: [],
-      locations: []
+      locations: [],
+      suggestion: '',
+      number: ''
     }
     this.updateEvents = this.updateEvents.bind(this);
   }
@@ -30,27 +33,39 @@ class App extends Component {
     this.mounted = false
   }
 
-  updateEvents = (location) => {
+  updateEvents = (location, number) => {
+    this.setState({ suggestion: location, number: number })
     getEvents().then((events) => {
       const locationEvents = (location === '') ?
         events
         :
         events.filter((event) => event.location === location);
-      this.setState({
-        events: locationEvents
-      });
+      if (!number) {
+        this.setState({
+          events: locationEvents
+        });
+      } else {
+        const numberLocationEvents = locationEvents.slice(0, number);
+        this.setState({
+          events: numberLocationEvents
+        })
+      }
     });
   }
 
-
   render() {
-    const { events, locations } = this.state
+    const { events, locations, number, suggestion } = this.state
+    if (events.length === 0) {
+      return <div></div>
+    }
+
     return (
       <div className="App">
         <Container>
           <Row className='justify-content-md-center'>
-            <CitySearch locations={locations} updateEvents={this.updateEvents} />
-            <EventList events={events} />
+            <h2 className='m-2'>Cement Your Event</h2>
+            <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} />
+            <EventList events={events} updateEvents={this.updateEvents} suggestion={suggestion} />
           </Row>
         </Container>
       </div>

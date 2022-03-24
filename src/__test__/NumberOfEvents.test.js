@@ -6,7 +6,7 @@ import { mockEvents } from '../components/mock-data';
 describe('<NumberOfEvents /> component', () => {
   let NumberOfEventsWrapper;
   beforeAll(() => {
-    NumberOfEventsWrapper = shallow(<NumberOfEvents numberOfEvents={mockEvents.length} />)
+    NumberOfEventsWrapper = shallow(<NumberOfEvents events={mockEvents} />)
   })
 
   test('render input element', () => {
@@ -14,7 +14,7 @@ describe('<NumberOfEvents /> component', () => {
   });
 
   test('render correct number of events in state', () => {
-    expect(NumberOfEventsWrapper.state('eventsNumber')).toEqual(2);
+    expect(NumberOfEventsWrapper.state('eventsNumber')).toEqual(4);
   });
 
   test('input renders number of events correctly', () => {
