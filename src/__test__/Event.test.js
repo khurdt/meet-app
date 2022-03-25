@@ -16,46 +16,25 @@ describe('<EventList /> component', () => {
 
   test('render show button', () => {
     expect(EventWrapper.find('.show-button')).toHaveLength(1);
-  })
+  });
+
+  test('render modal', () => {
+    expect(EventWrapper.find('.modal')).toHaveLength(1);
+  });
 
   test('show Details set to false', () => {
-    expect(EventWrapper.state('showDetails')).toBe(false);
-  })
-
-  test('when showDetails is set to false class noDetails renders', () => {
-    expect(EventWrapper.find('.noDetails')).toHaveLength(1);
-  })
-
-  test('when showDetails is set to false class noDetails renders', () => {
-    expect(EventWrapper.find('.showDetails')).toHaveLength(0);
-  })
-
-  test('render class showDetails when show button is clicked', () => {
-    EventWrapper.find('.show-button').simulate('click');
-    expect(EventWrapper.find('.showDetails')).toHaveLength(1);
-  })
-
-  test('hide class noDetails when show button is clicked', () => {
-    EventWrapper.setState({ showDetails: false });
-    EventWrapper.find('.show-button').simulate('click');
-    expect(EventWrapper.find('.noDetails')).toHaveLength(0);
-  })
+    expect(EventWrapper.state('show')).toBe(false);
+  });
 
   test('make state of showDetails to be true', () => {
-    EventWrapper.setState({ showDetails: false });
+    EventWrapper.setState({ show: false });
     EventWrapper.find('.show-button').simulate('click');
-    expect(EventWrapper.state('showDetails')).toBe(true);
-  })
+    expect(EventWrapper.state('show')).toBe(true);
+  });
 
   test('render class noDetails when show button is clicked', () => {
-    EventWrapper.setState({ showDetails: true });
-    EventWrapper.find('.show-button').simulate('click');
-    expect(EventWrapper.find('.noDetails')).toHaveLength(1);
-  })
-
-  test('make state of showDetails to be false', () => {
-    EventWrapper.setState({ showDetails: true });
-    EventWrapper.find('.show-button').simulate('click');
-    expect(EventWrapper.state('showDetails')).toBe(false);
-  })
-});
+    EventWrapper.setState({ show: true });
+    EventWrapper.find('.close-button').simulate('click');
+    expect(EventWrapper.state('show')).toBe(false);
+  });
+})

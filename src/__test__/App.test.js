@@ -5,6 +5,7 @@ import EventList from '../components/EventList';
 import CitySearch from '../components/CitySearch';
 import { extractLocations, getEvents } from '../components/api';
 import { mockEvents } from '../components/mock-data';
+import NumberOfEvents from '../components/NumberOfEvents';
 
 //test suite
 describe('<App /> components', () => {
@@ -19,6 +20,9 @@ describe('<App /> components', () => {
   test('render CitySearch', () => {
     expect(AppWrapper.find(CitySearch)).toHaveLength(1);
   })
+  test('render NumberOfEvents', () => {
+    expect(AppWrapper.find(NumberOfEvents)).toHaveLength(1);
+  })
 });
 
 describe('<App /> integration', () => {
@@ -28,7 +32,7 @@ describe('<App /> integration', () => {
   })
 
 
-  test('App passes "events" state as a prop to EventList', () => {
+  test('App passes "events" state as aprop to EventList', () => {
     const AppWrapper = mount(<App />);
     const AppEventsState = AppWrapper.state('events');
     expect(AppEventsState).not.toEqual(undefined);
@@ -36,7 +40,7 @@ describe('<App /> integration', () => {
     AppWrapper.unmount();
   });
 
-  test('App passes "locations" state as a prop to CitySearch', () => {
+  test('App passes "locations" state as a prop to CitySearch', async () => {
     const AppWrapper = mount(<App />);
     const AppLocationsState = AppWrapper.state('locations');
     expect(AppLocationsState).not.toEqual(undefined);
@@ -61,9 +65,21 @@ describe('<App /> integration', () => {
   test('get list of all events when user selects "see all cities"', async () => {
     const AppWrapper = mount(<App />);
     const suggestionItems = AppWrapper.find(CitySearch).find('.suggestions li');
-    await suggestionItems.at(suggestionItems.length - 1).simulate('click');
+    await suggestionItems.at(suggestionItems.length - 1).simulate('mousedown');
     const allEvents = await getEvents();
     expect(AppWrapper.state('events')).toEqual(allEvents);
+    AppWrapper.unmount();
+  });
+
+  test('get list of all events when user selects "see all cities"', async () => {
+    const AppWrapper = mount(<App />);
+    const NumberWrapper = AppWrapper.find(NumberOfEvents);
+    NumberWrapper.find('.input').at(0).simulate('change', {
+      target: { value: 3 }
+    });
+    await NumberWrapper.find('.search-icon').at(0).simulate('click');
+    await getEvents();
+    expect(AppWrapper.state('events')).toHaveLength(3);
     AppWrapper.unmount();
   });
 

@@ -5,11 +5,13 @@ import NumberOfEvents from "./NumberOfEvents";
 
 class EventList extends Component {
   render() {
-    const { events, updateEvents, suggestion } = this.props;
+    const { events } = this.props;
+    if (events.length === 0) {
+      return <div></div>
+    }
 
     return (
       <>
-        <NumberOfEvents events={events} updateEvents={updateEvents} suggestion={suggestion} />
         <Row style={{ listStyleType: 'none' }} className="EventList">
           {events.map(event =>
             <Col key={event.id}>

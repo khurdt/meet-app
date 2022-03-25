@@ -82,3 +82,7 @@ export const extractLocations = (events) => {
   let locations = [...new Set(extractLocations)];
   return locations;
 }
+
+export const returnMockEvents = async () => {
+  return mockEvents;
+}

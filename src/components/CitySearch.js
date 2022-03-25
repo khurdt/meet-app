@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css'
-import { Container, Row, Col, Form } from 'react-bootstrap';
+import { Container, Form } from 'react-bootstrap';
 
 class CitySearch extends React.Component {
   constructor() {
@@ -29,9 +29,6 @@ class CitySearch extends React.Component {
   }
 
   render() {
-    const { showSuggestions } = this.state;
-    const { number } = this.props;
-
     return (
       <Container className='CitySearch'>
         <Form>

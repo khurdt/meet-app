@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css'
 import { Card, Button, Row, Col, Modal } from 'react-bootstrap';
-import { ArrowRight, ArrowDown } from 'react-feather';
+import { ArrowRight } from 'react-feather';
 
 class Event extends React.Component {
   constructor() {
@@ -26,29 +26,37 @@ class Event extends React.Component {
 
     return (
       <>
-        <div key={event.id} className='p-2 m-3 event-card' style={{ width: '300px', height: '100px' }}>
-          <Row>
-            <Col>
-              <Card.Title className='eventTitle'>{event.summary}</Card.Title>
-            </Col>
-            <ArrowRight
-              className='show-button'
-              style={{ height: '30px', maxWidth: '50px', marginRight: '15px' }}
-              onClick={this.handleShow} />
-          </Row>
+        <div key={event.id} className='mt-4 mb-4 event-card' style={{ width: '330px', height: '150px' }}>
+          <Card.Header>
+            <Row>
+              <Col xs={9} sm={9} md={9}>
+                <Card.Title className='eventTitle'>{event.summary}</Card.Title>
+              </Col>
+              <Col xs={1}>
+                <ArrowRight
+                  className='show-button'
+                  style={{ height: '30px', maxWidth: '50px', marginRight: '15px' }}
+                  onClick={this.handleShow} />
+              </Col>
+            </Row>
+          </Card.Header>
           <Card.Text className='m-2'>
-            {formattedDate}<span style={{ paddingRight: '10px' }}>
-              {formattedTime}</span>|<span style={{ paddingLeft: '10px' }}>
-              {event.location}</span>
+            {formattedDate}
+            <span style={{ paddingRight: '10px', paddingLeft: '10px' }}>
+              {formattedTime}
+            </span> |
+            <span style={{ paddingLeft: '10px' }}>
+              {event.location}
+            </span>
           </Card.Text>
         </div>
-        <Modal show={show} onHide={this.handleClose}>
+        <Modal show={show} onHide={this.handleClose} className='modal'>
           <Modal.Header closeButton>
             <Modal.Title>{event.summary}</Modal.Title>
           </Modal.Header>
           <Modal.Body>{event.description}</Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
+            <Button className='close-button' variant="secondary" onClick={this.handleClose}>
               Close
             </Button>
           </Modal.Footer>

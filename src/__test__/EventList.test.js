@@ -11,10 +11,6 @@ describe('<EventList /> component', () => {
     EventListWrapper = shallow(<EventList events={mockEvents} />)
   })
 
-  test('render NumberOfEvents', () => {
-    expect(EventListWrapper.find(NumberOfEvents)).toHaveLength(1);
-  })
-
   test('render correct number of events', () => {
     expect(EventListWrapper.find(Event)).toHaveLength(mockEvents.length);
   });

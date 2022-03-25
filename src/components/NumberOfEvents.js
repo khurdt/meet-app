@@ -12,12 +12,10 @@ class NumberOfEvents extends React.Component {
   }
 
   componentDidMount() {
-    this.getEventNumber();
-  }
-
-  getEventNumber = () => {
-    const eventsLength = this.props.events.length
-    this.setState({ eventsNumber: eventsLength })
+    this.setState({ eventsNumber: this.props.events.length })
+    if (this.props.events.length === 0) {
+      setTimeout(() => { this.setState({ eventsNumber: this.props.events.length }) }, 500);
+    }
   }
 
   handleEventNumber = (e) => {
@@ -34,9 +32,8 @@ class NumberOfEvents extends React.Component {
   }
 
   render() {
-    const { events, updateEvents, suggestion } = this.props;
     const { eventsNumber } = this.state;
-
+    const { events } = this.props
     return (
       <Form>
         <Form.Group>
@@ -45,7 +42,7 @@ class NumberOfEvents extends React.Component {
             <Col md={2}>
               <Form.Control
                 style={{ maxWidth: '140px', textAlign: 'center' }}
-                className='numberOfEvents'
+                className='input'
                 type='number'
                 max={100}
                 min={1}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../nprogress.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import './App.css';
+import NumberOfEvents from './NumberOfEvents';
 import EventList from './EventList';
 import CitySearch from './CitySearch';
 import { extractLocations, getEvents } from './api';
@@ -13,7 +14,7 @@ class App extends Component {
       events: [],
       locations: [],
       suggestion: '',
-      number: ''
+      number: 0
     }
     this.updateEvents = this.updateEvents.bind(this);
   }
@@ -54,18 +55,14 @@ class App extends Component {
   }
 
   render() {
-    const { events, locations, number, suggestion } = this.state
-    if (events.length === 0) {
-      return <div></div>
-    }
-
     return (
       <div className="App">
         <Container>
           <Row className='justify-content-md-center'>
             <h2 className='m-2'>Cement Your Event</h2>
-            <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} />
-            <EventList events={events} updateEvents={this.updateEvents} suggestion={suggestion} />
+            <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} number={this.state.number} />
+            <NumberOfEvents updateEvents={this.updateEvents} suggestion={this.state.suggestion} events={this.state.events} />
+            <EventList events={this.state.events} updateEvents={this.updateEvents} suggestion={this.state.suggestion} />
           </Row>
         </Container>
       </div>
