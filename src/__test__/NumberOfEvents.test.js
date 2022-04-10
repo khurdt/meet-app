@@ -2,18 +2,20 @@ import React from "react";
 import { shallow } from "enzyme";
 import NumberOfEvents from "../components/NumberOfEvents";
 import { mockEvents } from '../components/mock-data';
+import { fakeTimer } from '../components/api'
 
 describe('<NumberOfEvents /> component', () => {
   let NumberOfEventsWrapper;
   beforeAll(() => {
-    NumberOfEventsWrapper = shallow(<NumberOfEvents events={mockEvents} />)
+    NumberOfEventsWrapper = shallow(<NumberOfEvents number={mockEvents.length} events={mockEvents} />)
   })
 
   test('render input element', () => {
     expect(NumberOfEventsWrapper.find('.input')).toHaveLength(1);
   });
 
-  test('render correct number of events in state', () => {
+  test('input renders number of events correctly', async () => {
+    await fakeTimer()
     expect(NumberOfEventsWrapper.state('eventsNumber')).toEqual(4);
   });
 

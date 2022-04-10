@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css'
 import { Form, Row, Col } from 'react-bootstrap';
-import { Search } from 'react-feather';
+import { Filter } from 'react-feather';
 
 class NumberOfEvents extends React.Component {
   constructor(props) {
@@ -12,14 +12,13 @@ class NumberOfEvents extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ eventsNumber: this.props.events.length })
-    if (this.props.events.length === 0) {
-      setTimeout(() => { this.setState({ eventsNumber: this.props.events.length }) }, 500);
+    this.setState({ eventsNumber: this.props.number })
+    if (this.props.number === 0) {
+      setTimeout(() => { this.setState({ eventsNumber: this.props.number }) }, 1000);
     }
   }
 
-  handleEventNumber = (e) => {
-    const newNumber = e.target.value;
+  handleEventNumber = (newNumber) => {
     if (newNumber <= 0) {
       this.setState({ eventsNumber: 1 })
     } else {
@@ -33,9 +32,8 @@ class NumberOfEvents extends React.Component {
 
   render() {
     const { eventsNumber } = this.state;
-    const { events } = this.props
     return (
-      <Form>
+      <Form onSubmit={e => { e.preventDefault(); }}>
         <Form.Group>
           <Form.Label htmlFor='eventNumber'>Number of Events</Form.Label>
           <Row>
@@ -44,13 +42,13 @@ class NumberOfEvents extends React.Component {
                 style={{ maxWidth: '140px', textAlign: 'center' }}
                 className='input'
                 type='number'
-                max={100}
+                max={250}
                 min={1}
                 value={eventsNumber}
-                onChange={(e) => this.handleEventNumber(e)} />
+                onChange={(e) => this.handleEventNumber(e.target.value)} />
             </Col>
             <Col md={10} style={{ marginLeft: '150px', marginTop: '3px', position: 'absolute' }}>
-              <Search className='search-icon' onClick={() => this.handleUpdateEvents()} />
+              <Filter className='search-icon' onClick={() => this.handleUpdateEvents()} />
             </Col>
           </Row>
         </Form.Group>

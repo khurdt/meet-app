@@ -31,7 +31,7 @@ class CitySearch extends React.Component {
   render() {
     return (
       <Container className='CitySearch'>
-        <Form>
+        <Form onSubmit={e => { e.preventDefault(); }}>
           <Form.Group className='m-auto' style={{ maxWidth: '200px' }}>
             <Form.Control
               type='text'

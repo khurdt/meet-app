@@ -61,7 +61,7 @@ class App extends Component {
           <Row className='justify-content-md-center'>
             <h2 className='m-2'>Cement Your Event</h2>
             <CitySearch locations={this.state.locations} updateEvents={this.updateEvents} number={this.state.number} />
-            <NumberOfEvents updateEvents={this.updateEvents} suggestion={this.state.suggestion} events={this.state.events} />
+            <NumberOfEvents updateEvents={this.updateEvents} suggestion={this.state.suggestion} number={this.state.events.length} />
             <EventList events={this.state.events} updateEvents={this.updateEvents} suggestion={this.state.suggestion} />
           </Row>
         </Container>

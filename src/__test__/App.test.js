@@ -71,7 +71,7 @@ describe('<App /> integration', () => {
     AppWrapper.unmount();
   });
 
-  test('get list of all events when user selects "see all cities"', async () => {
+  test('get correct number of events when user submit amount of events to filter"', async () => {
     const AppWrapper = mount(<App />);
     const NumberWrapper = AppWrapper.find(NumberOfEvents);
     NumberWrapper.find('.input').at(0).simulate('change', {
