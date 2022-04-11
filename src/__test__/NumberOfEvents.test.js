@@ -11,20 +11,28 @@ describe('<NumberOfEvents /> component', () => {
   })
 
   test('render input element', () => {
+    NumberOfEventsWrapper.setState({ show: true });
     expect(NumberOfEventsWrapper.find('.input')).toHaveLength(1);
   });
 
-  test('input renders number of events correctly', async () => {
-    await fakeTimer()
+  test('input renders number of events correctly', () => {
     expect(NumberOfEventsWrapper.state('eventsNumber')).toEqual(4);
   });
 
+  test('render modal when filter icon is clicked', () => {
+    NumberOfEventsWrapper.setState({ show: false });
+    NumberOfEventsWrapper.find('.filter-icon').at(0).simulate('click');
+    expect(NumberOfEventsWrapper.state('show')).toBe(true);
+  });
+
   test('input renders number of events correctly', () => {
+    NumberOfEventsWrapper.setState({ show: true });
     const eventsNumber = NumberOfEventsWrapper.state('eventsNumber');
     expect(NumberOfEventsWrapper.find('.input').prop('value')).toBe(eventsNumber);
   });
 
   test('render certain number of events based on input', () => {
+    NumberOfEventsWrapper.setState({ show: true });
     NumberOfEventsWrapper.find('.input').simulate('change', {
       target: { value: 1 }
     });
@@ -32,6 +40,7 @@ describe('<NumberOfEvents /> component', () => {
   })
 
   test('render certain number of events based on input', () => {
+    NumberOfEventsWrapper.setState({ show: true });
     NumberOfEventsWrapper.find('.input').simulate('change', {
       target: { value: 0 }
     });

@@ -19,7 +19,7 @@ describe('<EventList /> component', () => {
   });
 
   test('render modal', () => {
-    expect(EventWrapper.find('.modal')).toHaveLength(1);
+    expect(EventWrapper.find('.details-modal')).toHaveLength(1);
   });
 
   test('show Details set to false', () => {

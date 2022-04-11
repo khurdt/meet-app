@@ -50,12 +50,12 @@ class Event extends React.Component {
             </span>
           </Card.Text>
         </div>
-        <Modal show={show} onHide={this.handleClose} className='modal'>
+        <Modal show={show} onHide={this.handleClose} className='details-modal'>
           <Modal.Header closeButton>
             <Modal.Title>{event.summary}</Modal.Title>
           </Modal.Header>
           <Modal.Body>{event.description}</Modal.Body>
-          <Modal.Footer>
+          <Modal.Footer className='.details-footer'>
             <Button className='close-button' variant="secondary" onClick={this.handleClose}>
               Close
             </Button>

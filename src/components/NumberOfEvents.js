@@ -1,18 +1,19 @@
 import React from 'react';
 import './App.css'
-import { Form, Row, Col } from 'react-bootstrap';
+import { Form, Row, Col, Modal } from 'react-bootstrap';
 import { Filter } from 'react-feather';
 
 class NumberOfEvents extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventsNumber: 0
+      eventsNumber: 0,
+      show: false
     };
   }
 
   componentDidMount() {
-    this.setState({ eventsNumber: this.props.number })
+    this.setState({ eventsNumber: this.props.number });
     if (this.props.number === 0) {
       setTimeout(() => { this.setState({ eventsNumber: this.props.number }) }, 1000);
     }
@@ -30,29 +31,53 @@ class NumberOfEvents extends React.Component {
     this.props.updateEvents(this.props.suggestion, this.state.eventsNumber)
   }
 
+  handleClose = () => {
+    this.setState({ show: false });
+  }
+  handleShow = () => {
+    this.setState({ show: true });
+  }
+
   render() {
-    const { eventsNumber } = this.state;
+    const { eventsNumber, show } = this.state;
     return (
-      <Form onSubmit={e => { e.preventDefault(); }}>
-        <Form.Group>
-          <Form.Label htmlFor='eventNumber'>Number of Events</Form.Label>
-          <Row>
-            <Col md={2}>
-              <Form.Control
-                style={{ maxWidth: '140px', textAlign: 'center' }}
-                className='input'
-                type='number'
-                max={250}
-                min={1}
-                value={eventsNumber}
-                onChange={(e) => this.handleEventNumber(e.target.value)} />
-            </Col>
-            <Col md={10} style={{ marginLeft: '150px', marginTop: '3px', position: 'absolute' }}>
-              <Filter className='search-icon' onClick={() => this.handleUpdateEvents()} />
-            </Col>
-          </Row>
-        </Form.Group>
-      </Form >
+      <>
+        <Modal show={show} onHide={this.handleClose} className='filter-modal'>
+          <Modal.Header closeButton>
+            <Modal.Title>Filter Events</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={e => { e.preventDefault(); }}>
+              <Form.Group>
+                <Form.Label htmlFor='eventNumber'>Number of Events</Form.Label>
+                <Row>
+                  <Col md={2} className='col-input'>
+                    <Form.Control
+                      style={{ width: '130px', textAlign: 'center', backgroundColor: '#474242', color: 'white' }}
+                      className='input'
+                      type='number'
+                      max={250}
+                      min={1}
+                      value={eventsNumber}
+                      onChange={(e) => this.handleEventNumber(e.target.value)} />
+                  </Col>
+                </Row>
+              </Form.Group>
+            </Form >
+          </Modal.Body>
+          <Modal.Footer>
+            <Filter className='filter-modal-icon' onClick={() => { this.handleClose(); this.handleUpdateEvents() }}>
+              Filter
+            </Filter>
+          </Modal.Footer>
+        </Modal>
+        <Col>
+          <div style={{ fontSize: '20px' }}>Events Showing: <span style={{ paddingLeft: '10px' }}>{this.props.events.length}</span></div>
+        </Col>
+        <Col xs={6} sm={5} md={3} lg={2}>
+          <div style={{ fontSize: '20px' }}>Filter<span style={{ paddingLeft: '10px' }}><Filter className='filter-icon' onClick={() => this.handleShow()} /></span></div>
+        </Col>
+      </>
     );
   }
 }

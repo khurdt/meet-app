@@ -34,6 +34,7 @@ class CitySearch extends React.Component {
         <Form onSubmit={e => { e.preventDefault(); }}>
           <Form.Group className='m-auto' style={{ maxWidth: '200px' }}>
             <Form.Control
+              style={{ backgroundColor: '#474242', color: 'white' }}
               type='text'
               className='city mt-4'
               placeholder='search for cities'
