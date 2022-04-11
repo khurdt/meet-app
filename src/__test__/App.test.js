@@ -73,20 +73,17 @@ describe('<App /> integration', () => {
     AppWrapper.unmount();
   });
 
-  // test('get correct number of events when user submit amount of events to filter"', async () => {
-  //   const AppWrapper = mount(<App />);
-  //   const NumberWrapper = AppWrapper.find(NumberOfEvents);
-  //   await NumberWrapper.find('.filter-icon').at(0).simulate('click');
-  //   // expect(NumberWrapper.state('show')).toBe(true);
-  //   expect(NumberWrapper.find('.modal')).toHaveLength(1);
-  //   NumberWrapper.find('.input').simulate('change', {
-  //     target: { value: 3 }
-  //   });
-  //   await NumberWrapper.find('.filter-modal-icon').at(0).simulate('click');
-  //   await getEvents();
-  //   expect(AppWrapper.state('events')).toHaveLength(3);
-  //   AppWrapper.unmount();
-  // });
+  test('get correct number of events when user submit amount of events to filter"', async () => {
+    const AppWrapper = mount(<App />);
+    await AppWrapper.find('.filter-icon').at(0).simulate('click');
+    AppWrapper.find('.input').at(0).simulate('change', {
+      target: { value: 3 }
+    });
+    await AppWrapper.find('.filter-modal-icon').at(0).simulate('click');
+    await getEvents();
+    expect(AppWrapper.state('events')).toHaveLength(3);
+    AppWrapper.unmount();
+  });
 
 });
 

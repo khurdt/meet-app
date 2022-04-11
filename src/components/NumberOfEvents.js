@@ -46,11 +46,11 @@ class NumberOfEvents extends React.Component {
           <Modal.Header closeButton>
             <Modal.Title>Filter Events</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={e => { e.preventDefault(); }}>
-              <Form.Group>
+          <Modal.Body className='modal-body'>
+            <Form className='modal-form' onSubmit={e => { e.preventDefault(); }}>
+              <Form.Group className='form-group'>
                 <Form.Label htmlFor='eventNumber'>Number of Events</Form.Label>
-                <Row>
+                <Row className='row-input'>
                   <Col md={2} className='col-input'>
                     <Form.Control
                       style={{ width: '130px', textAlign: 'center', backgroundColor: '#474242', color: 'white' }}
@@ -72,7 +72,12 @@ class NumberOfEvents extends React.Component {
           </Modal.Footer>
         </Modal>
         <Col>
-          <div style={{ fontSize: '20px' }}>Events Showing: <span style={{ paddingLeft: '10px' }}>{this.props.events.length}</span></div>
+          <div
+            className='events-showing'
+            value={this.props.events.length}
+            style={{ fontSize: '20px' }}>
+            Events Showing: <span style={{ paddingLeft: '10px' }}>{this.props.events.length}</span>
+          </div>
         </Col>
         <Col xs={6} sm={5} md={3} lg={2}>
           <div style={{ fontSize: '20px' }}>Filter<span style={{ paddingLeft: '10px' }}><Filter className='filter-icon' onClick={() => this.handleShow()} /></span></div>
