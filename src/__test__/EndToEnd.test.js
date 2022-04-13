@@ -1,4 +1,3 @@
-import { getJestCucumberConfiguration } from 'jest-cucumber/dist/src/configuration';
 import puppeteer from 'puppeteer';
 
 describe('show/hide an event details', () => {
@@ -61,6 +60,7 @@ describe('filter events by city', () => {
     });
     expect(searchInput).toBe('');
   }, 100000);
+
   test('input is changed to Berlin and suggestion is selected', async () => {
     await page.click('.city');
     await page.type('.city', 'Berlin');

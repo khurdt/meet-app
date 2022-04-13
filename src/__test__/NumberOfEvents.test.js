@@ -2,7 +2,6 @@ import React from "react";
 import { shallow } from "enzyme";
 import NumberOfEvents from "../components/NumberOfEvents";
 import { mockEvents } from '../components/mock-data';
-import { fakeTimer } from '../components/api'
 
 describe('<NumberOfEvents /> component', () => {
   let NumberOfEventsWrapper;
