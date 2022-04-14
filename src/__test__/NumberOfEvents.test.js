@@ -6,7 +6,7 @@ import { mockEvents } from '../components/mock-data';
 describe('<NumberOfEvents /> component', () => {
   let NumberOfEventsWrapper;
   beforeAll(() => {
-    NumberOfEventsWrapper = shallow(<NumberOfEvents number={mockEvents.length} events={mockEvents} />)
+    NumberOfEventsWrapper = shallow(<NumberOfEvents number={mockEvents.length} events={mockEvents} originalMaxEvents={mockEvents.length} />)
   })
 
   test('render input element', () => {
@@ -38,12 +38,14 @@ describe('<NumberOfEvents /> component', () => {
     expect(NumberOfEventsWrapper.state('eventsNumber')).toEqual(1)
   })
 
-  test('render certain number of events based on input', () => {
+  test('clear filters with clear filter button', () => {
     NumberOfEventsWrapper.setState({ show: true });
     NumberOfEventsWrapper.find('.input').simulate('change', {
-      target: { value: 0 }
+      target: { value: 1 }
     });
     expect(NumberOfEventsWrapper.state('eventsNumber')).toEqual(1)
+    NumberOfEventsWrapper.find('.clear-filter').simulate('click');
+    expect(NumberOfEventsWrapper.state('eventsNumber')).toEqual(mockEvents.length)
   })
 
 });

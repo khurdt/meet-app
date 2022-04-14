@@ -1,14 +1,16 @@
 import React from 'react';
 import './App.css'
-import { Form, Row, Col, Modal } from 'react-bootstrap';
+import { Form, Row, Col, Modal, Button } from 'react-bootstrap';
 import { Filter } from 'react-feather';
+import { ErrorAlert } from './Alert';
 
 class NumberOfEvents extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       eventsNumber: 0,
-      show: false
+      show: false,
+      errorText: ''
     };
   }
 
@@ -20,15 +22,21 @@ class NumberOfEvents extends React.Component {
   }
 
   handleEventNumber = (newNumber) => {
-    if (newNumber <= 0) {
-      this.setState({ eventsNumber: 1 })
+    if (newNumber < 0) {
+      this.setState({ eventNumber: newNumber, errorText: 'invalid number' });
     } else {
-      this.setState({ eventsNumber: newNumber });
+      this.setState({ eventsNumber: newNumber, errorText: '' });
     }
   }
 
   handleUpdateEvents = () => {
-    this.props.updateEvents(this.props.suggestion, this.state.eventsNumber)
+    if (this.state.eventsNumber == 0) {
+      this.setState({ errorText: 'number must be greater than 0' });
+    } else {
+      this.props.updateEvents(this.props.suggestion, this.state.eventsNumber)
+      this.handleClose();
+      this.setState({ errorText: '' });
+    }
   }
 
   handleClose = () => {
@@ -38,6 +46,14 @@ class NumberOfEvents extends React.Component {
     this.setState({ show: true });
   }
 
+  clearFilters = () => {
+    this.handleEventNumber(this.props.originalMaxEvents);
+    setTimeout(() => {
+      this.handleUpdateEvents();
+      this.handleClose();
+    }, 200);
+  }
+
   render() {
     const { eventsNumber, show } = this.state;
     return (
@@ -45,6 +61,7 @@ class NumberOfEvents extends React.Component {
         <Modal show={show} onHide={this.handleClose} className='filter-modal'>
           <Modal.Header closeButton>
             <Modal.Title>Filter Events</Modal.Title>
+            <Button className='m-auto bg-dark clear-filter' onClick={() => { this.clearFilters() }}>Clear Filters</Button>
           </Modal.Header>
           <Modal.Body className='modal-body'>
             <Form className='modal-form' onSubmit={e => { e.preventDefault(); }}>
@@ -57,7 +74,7 @@ class NumberOfEvents extends React.Component {
                       className='input'
                       type='number'
                       max={250}
-                      min={1}
+                      min={0}
                       value={eventsNumber}
                       onChange={(e) => this.handleEventNumber(e.target.value)} />
                   </Col>
@@ -66,7 +83,10 @@ class NumberOfEvents extends React.Component {
             </Form >
           </Modal.Body>
           <Modal.Footer>
-            <Filter className='filter-modal-icon' onClick={() => { this.handleClose(); this.handleUpdateEvents() }}>
+            <Col className='pb-3' style={{ height: '0px' }}>
+              <ErrorAlert text={this.state.errorText} />
+            </Col>
+            <Filter className='filter-modal-icon' onClick={() => { this.handleUpdateEvents() }}>
               Filter
             </Filter>
           </Modal.Footer>

@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css'
 import { Container, Form } from 'react-bootstrap';
+import { InfoAlert } from './Alert';
 
 class CitySearch extends React.Component {
   constructor() {
@@ -8,7 +9,8 @@ class CitySearch extends React.Component {
     this.state = {
       query: '',
       suggestions: [],
-      showSuggestions: undefined
+      showSuggestions: undefined,
+      infoText: ''
     };
   }
 
@@ -17,13 +19,27 @@ class CitySearch extends React.Component {
     const suggestions = this.props.locations.filter((location) => {
       return location.toUpperCase().indexOf(newValue.toUpperCase()) > -1;
     })
-    this.setState({ query: newValue, suggestions: suggestions });
+    if (suggestions.length === 0) {
+      this.setState({
+        query: newValue,
+        suggestions: [],
+        infoText: 'City not found. Try again please'
+      });
+    } else {
+      return this.setState({
+        query: newValue,
+        suggestions,
+        infoText: ''
+      });
+    }
   }
 
   handleItemClicked = (suggestion) => {
     this.setState({
       query: suggestion,
-      showSuggestions: false
+      showSuggestions: false,
+      suggestions: [],
+      infoText: ''
     });
     this.props.updateEvents(suggestion, this.props.number);
   }
@@ -32,11 +48,14 @@ class CitySearch extends React.Component {
     return (
       <Container className='CitySearch'>
         <Form onSubmit={e => { e.preventDefault(); }}>
-          <Form.Group className='m-auto' style={{ maxWidth: '200px' }}>
+          <Form.Group className='m-auto' style={{ maxWidth: '250px' }}>
+            <div style={{ height: '0px' }}>
+              <InfoAlert text={this.state.infoText} />
+            </div>
             <Form.Control
-              style={{ backgroundColor: '#474242', color: 'white' }}
+              style={{ backgroundColor: '#474242', color: 'white', borderRadius: '0px' }}
               type='text'
-              className='city mt-4'
+              className='city mt-4 shadow-none'
               placeholder='search for cities'
               value={this.state.query}
               onChange={this.handleInputChanged}

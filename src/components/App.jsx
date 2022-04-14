@@ -14,7 +14,8 @@ class App extends Component {
       events: [],
       locations: [],
       suggestion: '',
-      number: 0
+      number: 0,
+      originalMaxEvents: 0
     }
     this.updateEvents = this.updateEvents.bind(this);
   }
@@ -24,7 +25,7 @@ class App extends Component {
     getEvents().then((events) => {
       if (this.mounted) {
         this.setState({
-          events, locations: extractLocations(events), number: events.length
+          events, locations: extractLocations(events), number: events.length, originalMaxEvents: events.length
         });
       }
     });
@@ -55,14 +56,14 @@ class App extends Component {
   }
 
   render() {
-    const { number, events, locations, suggestion } = this.state
+    const { number, events, locations, suggestion, originalMaxEvents } = this.state
     return (
       <div className="App">
-        <Container>
+        <Container fluid style={{ margin: '10px' }}>
           <Row className='justify-content-md-center'>
             <h2 className='m-2'>Cement Your Event</h2>
             <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} />
-            <NumberOfEvents updateEvents={this.updateEvents} suggestion={suggestion} number={number} events={events} />
+            <NumberOfEvents updateEvents={this.updateEvents} suggestion={suggestion} number={number} originalMaxEvents={originalMaxEvents} events={events} />
             <EventList events={events} updateEvents={this.updateEvents} suggestion={suggestion} />
           </Row>
         </Container>

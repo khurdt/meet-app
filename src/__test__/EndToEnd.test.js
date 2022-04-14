@@ -5,6 +5,7 @@ describe('show/hide an event details', () => {
   let page;
   beforeAll(async () => {
     jest.setTimeout(100000);
+    // browser = await puppeteer.launch();
     browser = await puppeteer.launch({
       headless: false,
       slowMo: 250,
@@ -40,8 +41,10 @@ describe('filter events by city', () => {
   let browser;
   let page;
   beforeAll(async () => {
+    jest.setTimeout(100000);
+    // browser = await puppeteer.launch();
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       slowMo: 250,
       ignoreDefaultArgs: ['--disable-extensions']
     });
