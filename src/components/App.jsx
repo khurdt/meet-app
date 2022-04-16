@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../nprogress.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Navbar } from 'react-bootstrap';
 import './App.css';
 import NumberOfEvents from './NumberOfEvents';
 import EventList from './EventList';
@@ -59,12 +59,11 @@ class App extends Component {
     const { number, events, locations, suggestion, originalMaxEvents } = this.state
     return (
       <div className="App">
+        <Navbar style={{ backgroundColor: '#474242', height: '56px', margin: '0', padding: '0', zIndex: '100' }}>
+          <Navbar.Brand className='m-auto' style={{ color: '#00ffff', fontSize: '20px', padding: '10px' }} href='/'>Meet</Navbar.Brand>
+        </Navbar>
         <Container fluid style={{ margin: '10px' }}>
           <Row className='justify-content-md-center'>
-            <Col>
-              <h2 className='m-2'>Meet</h2>
-              <img src='./public/meet-app-192.png'></img>
-            </Col>
             <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} />
             <NumberOfEvents updateEvents={this.updateEvents} suggestion={suggestion} number={number} originalMaxEvents={originalMaxEvents} events={events} />
             <EventList events={events} updateEvents={this.updateEvents} suggestion={suggestion} />

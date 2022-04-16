@@ -35,7 +35,7 @@ class Event extends React.Component {
               <Col xs={1}>
                 <ArrowRight
                   className='show-button'
-                  style={{ height: '30px', maxWidth: '50px', marginRight: '15px' }}
+                  style={{ height: '30px', maxWidth: '50px', marginRight: '15px', cursor: 'pointer' }}
                   onClick={this.handleShow} />
               </Col>
             </Row>
