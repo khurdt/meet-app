@@ -26,21 +26,21 @@ class Event extends React.Component {
 
     return (
       <>
-        <div key={event.id} className='mt-4 mb-4 event-card' style={{ width: '330px', height: '150px' }}>
+        <div key={event.id} className='mt-4 mb-4 event-card'>
           <Card.Header>
             <Row>
               <Col xs={9} sm={9} md={9}>
-                <Card.Title style={{ color: '#00ffff' }} className='eventTitle'>{event.summary}</Card.Title>
+                <div style={{ color: '#00ffff' }} className='eventTitle'>{event.summary}</div>
               </Col>
               <Col xs={1}>
                 <ArrowRight
                   className='show-button'
-                  style={{ height: '30px', maxWidth: '50px', marginRight: '15px', cursor: 'pointer' }}
+                  style={{ cursor: 'pointer' }}
                   onClick={this.handleShow} />
               </Col>
             </Row>
           </Card.Header>
-          <Card.Text className='m-2'>
+          <div className='m-2 time-location'>
             {formattedDate}
             <span style={{ paddingRight: '10px', paddingLeft: '10px' }}>
               {formattedTime}
@@ -48,7 +48,7 @@ class Event extends React.Component {
             <span style={{ paddingLeft: '10px' }}>
               {event.location}
             </span>
-          </Card.Text>
+          </div>
         </div>
         <Modal show={show} onHide={this.handleClose} className='details-modal .modal-content'>
           <Modal.Header closeButton>

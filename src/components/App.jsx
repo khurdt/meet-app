@@ -59,8 +59,8 @@ class App extends Component {
     const { number, events, locations, suggestion, originalMaxEvents } = this.state
     return (
       <div className="App">
-        <Navbar style={{ backgroundColor: '#474242', height: '56px', margin: '0', padding: '0', zIndex: '100' }}>
-          <Navbar.Brand className='m-auto' style={{ color: '#00ffff', fontSize: '20px', padding: '10px' }} href='/'>Meet</Navbar.Brand>
+        <Navbar style={{ backgroundColor: '#474242', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
+          <Navbar.Brand className='m-auto' style={{ color: '#00ffff', fontSize: '15px' }}>Meet</Navbar.Brand>
         </Navbar>
         <Container fluid style={{ margin: '10px' }}>
           <Row className='justify-content-md-center'>

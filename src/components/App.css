@@ -1,8 +1,29 @@
+.show-button {
+    height: 30px;
+    max-width: 50px;
+    margin-right: 15px;
+}
+
 .show-button:hover {
     opacity: 0.5;
 }
 
+.eventTitle {
+    font-size: 20px;
+}
+
+.time-location {
+    font-size: 15px;
+}
+
+.events-filter {
+    font-size: 20px;
+}
+
 .event-card {
+    width: 330px;
+    height: 150px;
+    margin: auto;
     border: aqua 1px solid;
     border-radius: 1%;
     color: white;
@@ -51,4 +72,80 @@
 .suggestion-items:hover {
     cursor: pointer;
     color: aqua;
+}
+
+@media all and (min-width: 473px) and (max-width: 750px) {
+    .event-card {
+        max-width: 200px;
+        height: fit-content;
+    }
+
+    .eventTitle {
+        font-size: 15px;
+    }
+
+    .time-location {
+        font-size: 10px;
+    }
+
+    .events-filter {
+        font-size: 15px;
+    }
+
+    .show-button {
+        height: 20px;
+        max-width: 30px;
+        margin-right: 15px;
+    }
+}
+
+
+@media all and (min-width: 372px) and (max-width: 473px) {
+    .event-card {
+        max-width: 150px;
+        height: fit-content;
+    }
+
+    .eventTitle {
+        font-size: 15px;
+    }
+
+    .time-location {
+        font-size: 10px;
+    }
+
+    .events-filter {
+        font-size: 15px;
+    }
+
+    .show-button {
+        height: 20px;
+        max-width: 30px;
+        margin-right: 15px;
+    }
+}
+
+@media all and (max-width: 372px) {
+    .event-card {
+        max-width: 220px;
+        height: fit-content;
+    }
+
+    .eventTitle {
+        font-size: 15px;
+    }
+
+    .time-location {
+        font-size: 10px;
+    }
+
+    .events-filter {
+        font-size: 15px;
+    }
+
+    .show-button {
+        height: 20px;
+        max-width: 30px;
+        margin-right: 15px;
+    }
 }
