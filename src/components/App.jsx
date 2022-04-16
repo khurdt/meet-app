@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../nprogress.css';
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import './App.css';
 import NumberOfEvents from './NumberOfEvents';
 import EventList from './EventList';
@@ -61,7 +61,10 @@ class App extends Component {
       <div className="App">
         <Container fluid style={{ margin: '10px' }}>
           <Row className='justify-content-md-center'>
-            <h2 className='m-2'>Cement Your Event</h2>
+            <Col>
+              <h2 className='m-2'>Meet</h2>
+              <img src='./public/meet-app-192.png'></img>
+            </Col>
             <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} />
             <NumberOfEvents updateEvents={this.updateEvents} suggestion={suggestion} number={number} originalMaxEvents={originalMaxEvents} events={events} />
             <EventList events={events} updateEvents={this.updateEvents} suggestion={suggestion} />
