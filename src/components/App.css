@@ -18,6 +18,13 @@
 
 .events-filter {
     font-size: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.event-showing {
+    padding-left: 10px;
+    padding-right: 100px;
 }
 
 .event-card {
@@ -74,78 +81,8 @@
     color: aqua;
 }
 
-@media all and (min-width: 473px) and (max-width: 750px) {
-    .event-card {
-        max-width: 200px;
-        height: fit-content;
-    }
-
-    .eventTitle {
-        font-size: 15px;
-    }
-
-    .time-location {
-        font-size: 10px;
-    }
-
-    .events-filter {
-        font-size: 15px;
-    }
-
-    .show-button {
-        height: 20px;
-        max-width: 30px;
-        margin-right: 15px;
-    }
-}
-
-
-@media all and (min-width: 372px) and (max-width: 473px) {
-    .event-card {
-        max-width: 150px;
-        height: fit-content;
-    }
-
-    .eventTitle {
-        font-size: 15px;
-    }
-
-    .time-location {
-        font-size: 10px;
-    }
-
-    .events-filter {
-        font-size: 15px;
-    }
-
-    .show-button {
-        height: 20px;
-        max-width: 30px;
-        margin-right: 15px;
-    }
-}
-
-@media all and (max-width: 372px) {
-    .event-card {
-        max-width: 220px;
-        height: fit-content;
-    }
-
-    .eventTitle {
-        font-size: 15px;
-    }
-
-    .time-location {
-        font-size: 10px;
-    }
-
-    .events-filter {
-        font-size: 15px;
-    }
-
-    .show-button {
-        height: 20px;
-        max-width: 30px;
-        margin-right: 15px;
+@media all and (max-width: 500px) {
+    .event-showing {
+        padding-right: 30px;
     }
 }

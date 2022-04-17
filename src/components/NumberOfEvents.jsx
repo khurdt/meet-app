@@ -90,16 +90,20 @@ class NumberOfEvents extends React.Component {
             <Filter className='filter-modal-icon' onClick={() => { this.handleUpdateEvents() }} />
           </Modal.Footer>
         </Modal>
-        <Row className='mt-4'>
+        <Row>
           <Col>
             <div
-              className='events-filter'
+              className='events-filter mt-4'
               value={this.props.events.length}>
-              Events Showing: <span style={{ paddingLeft: '10px' }}>{this.props.events.length}</span>
+              Events Showing:
+              <div className='event-showing'>
+                {this.props.events.length}
+              </div>
+              Filter
+              <div style={{ paddingLeft: '10px' }}>
+                <Filter className='filter-icon' onClick={() => this.handleShow()} />
+              </div>
             </div>
-          </Col>
-          <Col xs={6} sm={5} md={3} lg={2}>
-            <div className='events-filter'>Filter<span style={{ paddingLeft: '10px' }}><Filter className='filter-icon' onClick={() => this.handleShow()} /></span></div>
           </Col>
         </Row>
       </>
