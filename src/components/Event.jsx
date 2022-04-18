@@ -30,7 +30,7 @@ class Event extends React.Component {
           <Card.Header>
             <Row>
               <Col xs={9} sm={9} md={9}>
-                <div style={{ color: '#00ffff' }} className='eventTitle'>{event.summary}</div>
+                <div style={{ color: '#00ffff' }} className='eventTitle' onClick={this.handleShow} >{event.summary}</div>
               </Col>
               <Col xs={1}>
                 <ArrowRight
