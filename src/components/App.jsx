@@ -19,7 +19,6 @@ class App extends Component {
       number: 0,
       originalMaxEvents: 0,
       warningText: '',
-      errorText: '',
       showWelcomeScreen: undefined
     }
     this.updateEvents = this.updateEvents.bind(this);
@@ -81,7 +80,7 @@ class App extends Component {
   }
 
   render() {
-    const { number, events, locations, suggestion, originalMaxEvents, infoText, showWelcomeScreen } = this.state
+    const { number, events, locations, suggestion, originalMaxEvents, warningText, showWelcomeScreen } = this.state
 
     if (showWelcomeScreen === undefined) return <div className="App" />
 
@@ -97,8 +96,7 @@ class App extends Component {
         <Navbar style={{ backgroundColor: '#474242', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
           <Navbar.Brand className='m-auto' style={{ color: '#00ffff', fontSize: '15px' }}>Meet</Navbar.Brand>
         </Navbar>
-        <WarningAlert className='ml-auto' text={infoText} style={{ height: '0px' }} />
-        <ErrorAlert text={infoText} style={{ height: '0px' }} />
+        <WarningAlert className='ml-auto' text={warningText} style={{ height: '0px' }} />
         {isEventsLoaded ? (
           <Container fluid style={{ margin: '10px' }}>
             <Row className='justify-content-md-center'>

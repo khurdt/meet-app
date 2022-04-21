@@ -40,11 +40,11 @@ function WelcomeScreen(props) {
                 >
                   <b>Sign in with google</b>
                 </button>
-                <ErrorAlert text={infoText} style={{ height: '0px' }} />
               </div>
+              <Card.Text><ErrorAlert text={infoText} style={{ height: '0px' }} /></Card.Text>
             </div>
             <a
-              href="https://YOUR_GITHUB_USERNAME.github.io/meet/privacy.html"
+              href="https://khurdt.github.io/meet/privacy.html"
               rel="nofollow noopener"
             >
               Privacy policy
