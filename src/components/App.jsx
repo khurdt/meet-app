@@ -7,7 +7,8 @@ import EventList from './EventList';
 import CitySearch from './CitySearch';
 import WelcomeScreen from './WelcomeScreen';
 import { extractLocations, getEvents, checkToken, getAccessToken } from './api';
-import { ErrorAlert, WarningAlert } from './Alert';
+import { BrowserRouter as Router, Routes, Route, Redirect } from 'react-router-dom';
+import { WarningAlert } from './Alert';
 
 class App extends Component {
   constructor() {
