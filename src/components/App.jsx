@@ -96,7 +96,9 @@ class App extends Component {
         <Navbar style={{ backgroundColor: '#474242', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
           <Navbar.Brand className='m-auto' style={{ color: '#00ffff', fontSize: '15px' }}>Meet</Navbar.Brand>
         </Navbar>
-        <WarningAlert className='ml-auto' text={warningText} style={{ height: '0px' }} />
+        <div style={{ height: '0px' }}>
+        <WarningAlert className='ml-auto' text={warningText} />
+        </div>
         {isEventsLoaded ? (
           <Container fluid style={{ margin: '10px' }}>
             <Row className='justify-content-md-center'>

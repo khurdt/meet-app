@@ -44,7 +44,7 @@ function WelcomeScreen(props) {
               <Card.Text><ErrorAlert text={infoText} style={{ height: '0px' }} /></Card.Text>
             </div>
             <a
-              href="https://khurdt.github.io/meet/privacy.html"
+              href="https://khurdt.github.io/meet-app/privacy.html"
               rel="nofollow noopener"
             >
               Privacy policy
