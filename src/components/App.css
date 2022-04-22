@@ -97,6 +97,17 @@
     color: aqua;
 }
 
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #474242;
+    color: white;
+    text-align: center;
+}
+
 @media all and (max-width: 500px) {
     .event-showing {
         padding-right: 30px;
