@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import '../nprogress.css';
-import { Container, Row, Navbar, Nav } from 'react-bootstrap';
 import './App.css';
 import NumberOfEvents from './NumberOfEvents';
 import EventList from './EventList';
 import CitySearch from './CitySearch';
 import WelcomeScreen from './WelcomeScreen';
-import { extractLocations, getEvents, checkToken, getAccessToken } from './api';
-import { BrowserRouter as Router, Routes, Route, Redirect, Link } from 'react-router-dom';
-import { WarningAlert } from './Alert';
 import Charts from './Charts';
+import { extractLocations, getEvents, checkToken, getAccessToken } from './api';
+import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
+import { Container, Row, Navbar, Nav } from 'react-bootstrap';
+import { Home, BarChart2 } from 'react-feather';
+import '../nprogress.css';
+import { WarningAlert } from './Alert';
 
 class App extends Component {
   constructor() {
@@ -21,7 +22,8 @@ class App extends Component {
       number: 0,
       originalMaxEvents: 0,
       warningText: '',
-      showWelcomeScreen: undefined
+      showWelcomeScreen: undefined,
+      active: 'home'
     }
     this.updateEvents = this.updateEvents.bind(this);
   }
@@ -37,7 +39,7 @@ class App extends Component {
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get('code');
     this.setState({ showWelcomeScreen: !(code || isTokenValid) });
-    if (window.location.href.startsWith('http://localhost')) {
+    if (window.location.href.startsWith('http://localhost' || !navigator.onLine)) {
       getEvents().then((events) => {
         if (this.mounted) {
           this.setState({
@@ -91,8 +93,12 @@ class App extends Component {
     this.checkInternetConnection();
   }
 
+  handlePageHighlighting = (page) => {
+    this.setState({ active: page });
+  }
+
   render() {
-    const { number, events, locations, suggestion, originalMaxEvents, warningText, showWelcomeScreen } = this.state
+    const { number, events, locations, suggestion, originalMaxEvents, warningText, showWelcomeScreen, active } = this.state
 
     if (showWelcomeScreen === undefined) return <div className="App" />
 
@@ -103,21 +109,33 @@ class App extends Component {
       isEventsLoaded = true;
     }
 
+    let homeIcon;
+    let chartsIcon;
+    if (active === 'home') {
+      homeIcon = { color: '#ff3333' };
+      chartsIcon = { color: 'white' };
+    } else if (active === 'charts') {
+      homeIcon = { color: 'white' };
+      chartsIcon = { color: '#ff3333' };
+    }
+
     return (
       <Router>
         <div className="App">
-          <Navbar style={{ backgroundColor: '#474242', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
-            <Navbar.Brand className='m-auto' style={{ color: '#00ffff', fontSize: '15px' }}>Meet</Navbar.Brand>
-          </Navbar>
-          <div style={{ height: '0px' }}>
+          <div style={{ position: 'fixed', top: '0', right: '0', width: '100%' }}>
+            <Navbar style={{ backgroundColor: '#474242', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
+              <Navbar.Brand className='m-auto' style={{ color: '#00ffff', fontSize: '15px' }}>Meet</Navbar.Brand>
+            </Navbar>
+          </div>
+          <div style={{ height: '10px' }}>
             <WarningAlert className='ml-auto' text={warningText} />
           </div>
 
-          <Route exact path='/' render={() => {
+          <Route exact path='/meet-app' render={() => {
             return (
               <div>
                 {isEventsLoaded ? (
-                  <Container fluid style={{ margin: '10px' }}>
+                  <Container fluid className='pt-4' style={{ margin: '10px' }}>
                     <Row className='justify-content-md-center'>
                       <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} />
                       <NumberOfEvents updateEvents={this.updateEvents} suggestion={suggestion} number={number} originalMaxEvents={originalMaxEvents} events={events} />
@@ -130,15 +148,15 @@ class App extends Component {
             );
           }} />
 
-          <Route path='/charts' render={() => {
+          <Route path='/meet-app/charts' render={() => {
             return <Charts />
           }} />
 
           <div className='footer'>
-            <Navbar style={{ backgroundColor: '#1E2127', height: '56px', margin: '0', padding: '0', zIndex: '100' }}>
-              <Nav className='m-auto' style={{ backgroundColor: '#1E2127', paddingBottom: '20px' }}>
-                <Nav.Link style={{ color: 'white' }} href='/'>Home</Nav.Link>
-                <Nav.Link style={{ color: 'white' }} href='/charts'>Charts</Nav.Link>
+            <Navbar style={{ backgroundColor: '#474242', height: '50px', margin: '0', padding: '0', zIndex: '100' }}>
+              <Nav className='m-auto' style={{ backgroundColor: '#474242', paddingBottom: '50px' }}>
+                <Nav.Link as={Link} className='m-1' onClick={() => this.handlePageHighlighting('home')} to='/meet-app'><Home style={homeIcon} className='nav-icon' size={30} /></Nav.Link>
+                <Nav.Link as={Link} className='m-1' onClick={() => this.handlePageHighlighting('charts')} to='/meet-app/charts'><BarChart2 style={chartsIcon} className='nav-icon' size={30} /></Nav.Link>
               </Nav>
             </Navbar>
           </div>

@@ -41,7 +41,7 @@ function WelcomeScreen(props) {
                   <b>Sign in with google</b>
                 </button>
               </div>
-              <Card.Text><ErrorAlert text={infoText} style={{ height: '0px' }} /></Card.Text>
+              <ErrorAlert text={infoText} style={{ height: '0px' }} />
             </div>
             <a
               href="https://khurdt.github.io/meet-app/privacy.html"
