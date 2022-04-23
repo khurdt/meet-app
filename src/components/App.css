@@ -97,6 +97,10 @@
     color: aqua;
 }
 
+.navbar-top {
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.25);
+}
+
 .footer {
     position: fixed;
     left: 0;
@@ -106,11 +110,17 @@
     background-color: #474242;
     color: white;
     text-align: center;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
+}
+
+.nav-icon {
+    transition: 0.4s ease;
 }
 
 .nav-icon:hover {
-    color: aqua;
-    transition: 0.3 ease;
+    transform: scale(1.1);
+    opacity: 0.6;
+    transition: 0.4s ease;
 }
 
 @media all and (max-width: 500px) {

@@ -6,7 +6,7 @@ import CitySearch from './CitySearch';
 import WelcomeScreen from './WelcomeScreen';
 import Charts from './Charts';
 import { extractLocations, getEvents, checkToken, getAccessToken } from './api';
-import { BrowserRouter as Router, Route, Redirect, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Container, Row, Navbar, Nav } from 'react-bootstrap';
 import { Home, BarChart2 } from 'react-feather';
 import '../nprogress.css';
@@ -26,10 +26,13 @@ class App extends Component {
       active: 'home'
     }
     this.updateEvents = this.updateEvents.bind(this);
+    this.getData = this.getData.bind(this);
+    this.handlePageHighlighting = this.handlePageHighlighting.bind(this);
   }
 
   async componentDidMount() {
     this.mounted = true;
+    this.getData();
     const accessToken = localStorage.getItem('access_token');
     let isTokenValid;
     if (navigator.onLine) {
@@ -62,6 +65,7 @@ class App extends Component {
 
   componentWillUnmount() {
     this.mounted = false
+    this.handlePageHighlighting('');
   }
 
   checkInternetConnection = () => {
@@ -97,6 +101,16 @@ class App extends Component {
     this.setState({ active: page });
   }
 
+  getData = () => {
+    const { locations, events } = this.state;
+    const data = locations.map((location) => {
+      const number = events.filter((event) => event.location === location).length
+      const city = location.split(', ').shift()
+      return { city, number };
+    })
+    return data;
+  };
+
   render() {
     const { number, events, locations, suggestion, originalMaxEvents, warningText, showWelcomeScreen, active } = this.state
 
@@ -109,22 +123,22 @@ class App extends Component {
       isEventsLoaded = true;
     }
 
-    let homeIcon;
-    let chartsIcon;
+    //page highlighting
+    let homeIcon, chartsIcon;
     if (active === 'home') {
-      homeIcon = { color: '#ff3333' };
+      homeIcon = { color: 'rgb(0, 255, 242)' };
       chartsIcon = { color: 'white' };
     } else if (active === 'charts') {
       homeIcon = { color: 'white' };
-      chartsIcon = { color: '#ff3333' };
+      chartsIcon = { color: 'rgb(0, 255, 242)' };
     }
 
     return (
       <Router>
         <div className="App">
-          <div style={{ position: 'fixed', top: '0', right: '0', width: '100%' }}>
-            <Navbar style={{ backgroundColor: '#474242', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
-              <Navbar.Brand className='m-auto' style={{ color: '#00ffff', fontSize: '15px' }}>Meet</Navbar.Brand>
+          <div className='navbar-top' style={{ position: 'fixed', top: '0', right: '0', width: '100%' }}>
+            <Navbar style={{ backgroundColor: 'white', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
+              <Navbar.Brand className='m-auto' style={{ color: '#000', fontSize: '15px' }}>Meet</Navbar.Brand>
             </Navbar>
           </div>
           <div style={{ height: '10px' }}>
@@ -149,14 +163,14 @@ class App extends Component {
           }} />
 
           <Route path='/meet-app/charts' render={() => {
-            return <Charts />
+            return <Charts getData={this.getData} events={events} handlePageHighlighting={this.handlePageHighlighting} />
           }} />
 
           <div className='footer'>
             <Navbar style={{ backgroundColor: '#474242', height: '50px', margin: '0', padding: '0', zIndex: '100' }}>
               <Nav className='m-auto' style={{ backgroundColor: '#474242', paddingBottom: '50px' }}>
-                <Nav.Link as={Link} className='m-1' onClick={() => this.handlePageHighlighting('home')} to='/meet-app'><Home style={homeIcon} className='nav-icon' size={30} /></Nav.Link>
-                <Nav.Link as={Link} className='m-1' onClick={() => this.handlePageHighlighting('charts')} to='/meet-app/charts'><BarChart2 style={chartsIcon} className='nav-icon' size={30} /></Nav.Link>
+                <Nav.Link as={Link} className='m-1 nav-icon' onClick={() => this.handlePageHighlighting('home')} to='/meet-app'><Home style={homeIcon} className='nav-icon' size={30} /></Nav.Link>
+                <Nav.Link as={Link} className='m-1 nav-icon' to='/meet-app/charts'><BarChart2 style={chartsIcon} className='nav-icon' size={30} /></Nav.Link>
               </Nav>
             </Navbar>
           </div>
