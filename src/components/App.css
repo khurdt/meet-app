@@ -1,3 +1,7 @@
+* {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
 .show-button {
     height: 30px;
     max-width: 50px;
@@ -47,11 +51,11 @@
     width: 330px;
     height: 150px;
     margin: auto;
-    border: aqua 1px solid;
-    border-radius: 1%;
+    border: #00e2e2 1px solid;
+    border-radius: 3%;
     color: white;
     background-color: #474242;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 25px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .details-modal .modal-content {
@@ -64,12 +68,12 @@
 }
 
 .filter-icon:hover {
-    color: aqua;
+    color: #00e2e2;
     cursor: pointer;
 }
 
 .filter-modal-icon:hover {
-    color: aqua;
+    color: #00e2e2;
     cursor: pointer;
 }
 
@@ -80,7 +84,7 @@
 
 .suggestions {
     padding: 10px;
-    border: 1px solid rgb(0, 255, 242);
+    border: 1px solid #00e2e2;
     background-color: #474242;
     color: white;
     border-top: none;
@@ -94,23 +98,22 @@
 
 .suggestion-items:hover {
     cursor: pointer;
-    color: aqua;
+    color: #00e2e2;
 }
 
 .navbar-top {
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.25);
+    box-shadow: 4px 1px 1px 2px rgba(135, 135, 135, 0.25);
 }
 
 .footer {
     position: fixed;
+    padding-bottom: 65px;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 50px;
-    background-color: #474242;
-    color: white;
-    text-align: center;
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
+    height: 65px;
+    background-color: #eeeeee;
+    box-shadow: 1px 1px 1px 4px rgba(135, 135, 135, 0.25);
 }
 
 .nav-icon {
@@ -119,7 +122,6 @@
 
 .nav-icon:hover {
     transform: scale(1.1);
-    opacity: 0.6;
     transition: 0.4s ease;
 }
 

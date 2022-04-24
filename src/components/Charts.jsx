@@ -1,115 +1,77 @@
 import React from 'react';
-import { ScatterChart, Scatter, Sector, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie } from 'recharts';
+import { Bar, Cell, BarChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Container, Row, Col } from 'react-bootstrap';
-import EventGenre from './EventGenre';
+import EventGenrePie from './EventGenrePie';
+import EventCityPie from './EventCityPie';
 
 class Charts extends React.Component {
   constructor() {
     super();
-    this.state = {
-      activeIndex: 0
-    };
+    this.state = {};
   }
 
   componentDidMount() {
     this.props.handlePageHighlighting('charts');
   }
 
-  onPieEnter = (_, index) => {
-    this.setState({
-      activeIndex: index,
-    });
+  getData = () => {
+    const { locations, originalEvents } = this.props;
+    const data = locations.map((location) => {
+      const number = originalEvents.filter((event) => event.location === location).length
+      const city = location.split(', ').shift()
+      return { city, number };
+    })
+    return data;
   };
 
   render() {
-    const { getData, events } = this.props
-
-    //copied from recharts
-    const renderActiveShape = (props) => {
-      const RADIAN = Math.PI / 180;
-      const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
-      const sin = Math.sin(-RADIAN * midAngle);
-      const cos = Math.cos(-RADIAN * midAngle);
-      const sx = cx + (outerRadius + 10) * cos;
-      const sy = cy + (outerRadius + 10) * sin;
-      const mx = cx + (outerRadius + 30) * cos;
-      const my = cy + (outerRadius + 30) * sin;
-      const ex = mx + (cos >= 0 ? 1 : -1) * 22;
-      const ey = my;
-      const textAnchor = cos >= 0 ? 'start' : 'end';
-
-      return (
-        <g>
-          <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-            {payload.city}
-          </text>
-          <Sector
-            cx={cx}
-            cy={cy}
-            innerRadius={innerRadius}
-            outerRadius={outerRadius}
-            startAngle={startAngle}
-            endAngle={endAngle}
-            fill={fill}
-          />
-          <Sector
-            cx={cx}
-            cy={cy}
-            startAngle={startAngle}
-            endAngle={endAngle}
-            innerRadius={outerRadius + 6}
-            outerRadius={outerRadius + 10}
-            fill={fill}
-          />
-          <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
-          <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-          <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`${value} events`}</text>
-          <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
-            {`(${(percent * 100).toFixed(2)}%)`}
-          </text>
-        </g>
-      );
-    };
-
+    const { originalEvents, locations } = this.props
+    const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#aa33cc', '#cc66aa', '#fd6159', '#bdb6c2', '#8f6677', '#1689d2', '#0d8767', '#f40096', '#FF0000', '#FFFF00', '#000000'];
     return (
-      <Container className='mt-3'>
+      <Container fluid='true' className='mt-3'>
         <Row>
           <Col>
-            <ResponsiveContainer height={250}>
-              <PieChart width={400} height={400}>
-                <Pie
-                  activeIndex={this.state.activeIndex}
-                  activeShape={renderActiveShape}
-                  data={getData()}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="number"
-                  onMouseEnter={this.onPieEnter}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            <EventCityPie events={originalEvents} locations={locations} />
           </Col>
           <Col>
-            <EventGenre events={events} />
+            <EventGenrePie events={originalEvents} />
           </Col>
         </Row>
-        <Row style={{ height: '80vh', zIndex: '-1000' }}>
-          <ResponsiveContainer height={400} >
-            <ScatterChart
+        <Row fluid='true' style={{ height: '80vh', zIndex: '-1000' }}>
+          <ResponsiveContainer width='100%' height={400} >
+            {/* <ScatterChart
               width={800}
               height={400}
               margin={{
-                top: 20, right: 20, bottom: 20, left: 20,
+                top: 20, right: 40, bottom: 20, left: 0,
               }}>
               <CartesianGrid />
               <XAxis type='category' dataKey='city' name="city" />
               <YAxis type='number' dataKey='number' name='events' allowDecimals={false} />
               <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-              <Scatter data={getData()} fill='#8884d8' />
-            </ScatterChart>
+              <Scatter data={this.getData()} fill='#8884d8' />
+            </ScatterChart> */}
+            <BarChart
+              width={800}
+              height={400}
+              data={this.getData()}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 0,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey='city' />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey='number'>    {
+                this.getData().map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={colors[index]} />
+                ))
+              }</Bar>
+            </BarChart>
           </ResponsiveContainer>
         </Row>
       </Container>

@@ -30,7 +30,7 @@ class Event extends React.Component {
           <Card.Header>
             <Row>
               <Col xs={9} sm={9} md={9}>
-                <div style={{ color: '#00ffff' }} className='eventTitle' onClick={this.handleShow} >{event.summary}</div>
+                <div style={{ color: '#00e2e2' }} className='eventTitle' onClick={this.handleShow} >{event.summary}</div>
               </Col>
               <Col xs={1}>
                 <ArrowRight
@@ -52,7 +52,7 @@ class Event extends React.Component {
         </div>
         <Modal show={show} onHide={this.handleClose} className='details-modal .modal-content'>
           <Modal.Header closeButton>
-            <Modal.Title style={{ color: '#00ffff' }}>{event.summary}</Modal.Title>
+            <Modal.Title style={{ color: '#00e2e2' }}>{event.summary}</Modal.Title>
           </Modal.Header>
           <Modal.Body>{event.description}</Modal.Body>
           <Modal.Footer className='.details-footer'>

@@ -20,19 +20,18 @@ class App extends Component {
       locations: [],
       suggestion: '',
       number: 0,
+      originalEvents: [],
       originalMaxEvents: 0,
       warningText: '',
       showWelcomeScreen: undefined,
       active: 'home'
     }
     this.updateEvents = this.updateEvents.bind(this);
-    this.getData = this.getData.bind(this);
     this.handlePageHighlighting = this.handlePageHighlighting.bind(this);
   }
 
   async componentDidMount() {
     this.mounted = true;
-    this.getData();
     const accessToken = localStorage.getItem('access_token');
     let isTokenValid;
     if (navigator.onLine) {
@@ -46,7 +45,7 @@ class App extends Component {
       getEvents().then((events) => {
         if (this.mounted) {
           this.setState({
-            events, locations: extractLocations(events), number: events.length, originalMaxEvents: events.length
+            events, locations: extractLocations(events), number: events.length, originalMaxEvents: events.length, originalEvents: events
           });
         }
       });
@@ -55,7 +54,7 @@ class App extends Component {
         getEvents().then((events) => {
           if (this.mounted) {
             this.setState({
-              events, locations: extractLocations(events), number: events.length, originalMaxEvents: events.length
+              events, locations: extractLocations(events), number: events.length, originalMaxEvents: events.length, originalEvents: events
             });
           }
         });
@@ -76,22 +75,28 @@ class App extends Component {
     }
   }
 
-  updateEvents = (location, number) => {
+  updateEvents = (location, number, genre) => {
     this.setState({ suggestion: location, number: number })
     getEvents().then((events) => {
+      let numberEvents;
+      let genreEvents;
       const locationEvents = (location === '') ?
         events
         :
         events.filter((event) => event.location === location);
-      if (!number) {
+      if (!number || !genre) {
         this.setState({
           events: locationEvents
         });
+        numberEvents = locationEvents;
       } else {
-        const numberLocationEvents = locationEvents.slice(0, number);
-        this.setState({
-          events: numberLocationEvents
-        })
+        numberEvents = locationEvents.slice(0, number);
+      }
+      if (genre === 'all') {
+        this.setState({ events: numberEvents });
+      } else {
+        genreEvents = numberEvents.filter((event) => event.summary.split(' ').includes(genre));
+        this.setState({ events: genreEvents });
       }
     });
     this.checkInternetConnection();
@@ -101,18 +106,8 @@ class App extends Component {
     this.setState({ active: page });
   }
 
-  getData = () => {
-    const { locations, events } = this.state;
-    const data = locations.map((location) => {
-      const number = events.filter((event) => event.location === location).length
-      const city = location.split(', ').shift()
-      return { city, number };
-    })
-    return data;
-  };
-
   render() {
-    const { number, events, locations, suggestion, originalMaxEvents, warningText, showWelcomeScreen, active } = this.state
+    const { number, events, locations, suggestion, originalMaxEvents, originalEvents, warningText, showWelcomeScreen, active } = this.state
 
     if (showWelcomeScreen === undefined) return <div className="App" />
 
@@ -126,22 +121,22 @@ class App extends Component {
     //page highlighting
     let homeIcon, chartsIcon;
     if (active === 'home') {
-      homeIcon = { color: 'rgb(0, 255, 242)' };
-      chartsIcon = { color: 'white' };
+      homeIcon = { color: '#00e2e2' };
+      chartsIcon = { color: '#474242' };
     } else if (active === 'charts') {
-      homeIcon = { color: 'white' };
-      chartsIcon = { color: 'rgb(0, 255, 242)' };
+      homeIcon = { color: '#474242' };
+      chartsIcon = { color: '#00e2e2' };
     }
 
     return (
       <Router>
-        <div className="App">
-          <div className='navbar-top' style={{ position: 'fixed', top: '0', right: '0', width: '100%' }}>
-            <Navbar style={{ backgroundColor: 'white', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
+        <Container fluid className="App" style={{ padding: '0px', margin: '0px' }}>
+          <div className='navbar-top' style={{ position: 'absolute', top: '0', right: '0', left: '0', width: '100%' }}>
+            <Navbar style={{ backgroundColor: '#eeeeee', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
               <Navbar.Brand className='m-auto' style={{ color: '#000', fontSize: '15px' }}>Meet</Navbar.Brand>
             </Navbar>
           </div>
-          <div style={{ height: '10px' }}>
+          <div style={{ height: '5px', marginTop: '30px' }}>
             <WarningAlert className='ml-auto' text={warningText} />
           </div>
 
@@ -149,7 +144,7 @@ class App extends Component {
             return (
               <div>
                 {isEventsLoaded ? (
-                  <Container fluid className='pt-4' style={{ margin: '10px' }}>
+                  <Container fluid className='pt-4'>
                     <Row className='justify-content-md-center'>
                       <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} />
                       <NumberOfEvents updateEvents={this.updateEvents} suggestion={suggestion} number={number} originalMaxEvents={originalMaxEvents} events={events} />
@@ -163,19 +158,22 @@ class App extends Component {
           }} />
 
           <Route path='/meet-app/charts' render={() => {
-            return <Charts getData={this.getData} events={events} handlePageHighlighting={this.handlePageHighlighting} />
+            return <Charts originalEvents={originalEvents} locations={locations} handlePageHighlighting={this.handlePageHighlighting} />
           }} />
 
-          <div className='footer'>
-            <Navbar style={{ backgroundColor: '#474242', height: '50px', margin: '0', padding: '0', zIndex: '100' }}>
-              <Nav className='m-auto' style={{ backgroundColor: '#474242', paddingBottom: '50px' }}>
-                <Nav.Link as={Link} className='m-1 nav-icon' onClick={() => this.handlePageHighlighting('home')} to='/meet-app'><Home style={homeIcon} className='nav-icon' size={30} /></Nav.Link>
-                <Nav.Link as={Link} className='m-1 nav-icon' to='/meet-app/charts'><BarChart2 style={chartsIcon} className='nav-icon' size={30} /></Nav.Link>
-              </Nav>
-            </Navbar>
-          </div>
-        </div>
-      </Router>
+          {isEventsLoaded ? (
+            <div className='footer'>
+              <Navbar style={{ backgroundColor: '#eeeeee', height: '50px' }}>
+                <Nav className='m-auto' style={{ backgroundColor: '#eeeeee' }}>
+                  <Nav.Link as={Link} className='m-1 nav-icon' onClick={() => this.handlePageHighlighting('home')} to='/meet-app'><Home style={homeIcon} className='nav-icon' size={30} /></Nav.Link>
+                  <Nav.Link as={Link} className='m-1 nav-icon' to='/meet-app/charts'><BarChart2 style={chartsIcon} className='nav-icon' size={30} /></Nav.Link>
+                </Nav>
+              </Navbar>
+            </div>) : (
+            <div></div>
+          )}
+        </Container>
+      </Router >
     );
   }
 }

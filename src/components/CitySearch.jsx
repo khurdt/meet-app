@@ -53,7 +53,7 @@ class CitySearch extends React.Component {
               <InfoAlert text={this.state.infoText} />
             </div>
             <Form.Control
-              style={{ backgroundColor: '#474242', color: 'white', borderRadius: '0px' }}
+              style={{ backgroundColor: '#474242', color: 'white', borderRadius: '3%' }}
               type='text'
               className='city mt-4 shadow-none'
               placeholder='search for cities'
