@@ -15,11 +15,11 @@ function EventCityPie({ events, locations }) {
     setData(incomingData)
   }, [events])
 
-  const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#aa33cc', '#cc66aa', '#fd6159', '#bdb6c2', '#8f6677', '#1689d2', '#0d8767', '#f40096', '#FF0000', '#FFFF00', '#000000'];
+  const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#aa33cc', '#cc66aa', '#fd6159', '#bdb6c2', '#8f6677', '#1689d2', '#0d8767', '#f40096', '#FF0000', '#f8f200', '#000000'];
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, number, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.75;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -42,6 +42,7 @@ function EventCityPie({ events, locations }) {
     <ResponsiveContainer height={250}>
       <PieChart width={400} height={400}>
         <Pie data={data} cx="50%" cy="50%" fill="#8884d8" dataKey="number" innerRadius={85} outerRadius={90}
+          labelLine={false}
           label={renderOtherCustomizedLabel}
         >
           {
@@ -50,7 +51,7 @@ function EventCityPie({ events, locations }) {
             ))
           }
         </Pie>
-        <Pie data={data} dataKey="number" cx="50%" cy="50%" outerRadius={85} fill="#82ca9d" label={renderCustomizedLabel} >
+        <Pie data={data} dataKey="number" cx="50%" cy="50%" outerRadius={85} fill="#82ca9d" labelLine={false} label={renderCustomizedLabel} >
           {
             data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={colors[index]} />

@@ -5,6 +5,7 @@ import { mockEvents } from "./mock-data";
 export const getAccessToken = async () => {
   const accessToken = localStorage.getItem('access_token');
   const tokenCheck = accessToken && (await checkToken(accessToken));
+
   if (!accessToken || tokenCheck.error) {
     await localStorage.removeItem('access_token');
     const searchParams = new URLSearchParams(window.location.search);

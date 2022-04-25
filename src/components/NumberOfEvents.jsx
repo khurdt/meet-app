@@ -61,8 +61,7 @@ class NumberOfEvents extends React.Component {
   }
 
   render() {
-    const { eventsNumber, show } = this.state;
-    const genres = ['React', 'JavaScript', 'Node', 'jQuery', 'AngularJS'];
+    const { eventsNumber, show, genre } = this.state;
     return (
       <>
         <Modal show={show} onHide={this.handleClose} className='filter-modal'>
@@ -90,6 +89,7 @@ class NumberOfEvents extends React.Component {
                     <Form.Select
                       style={{ width: '130px', textAlign: 'center', backgroundColor: '#474242', color: 'white' }}
                       aria-label="Default select example"
+                      value={genre}
                       onChange={(e) => this.handleGenre(e.target.value)}>
                       <option value='all'>all</option>
                       <option value="React">React</option>

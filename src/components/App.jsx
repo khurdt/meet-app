@@ -33,15 +33,11 @@ class App extends Component {
   async componentDidMount() {
     this.mounted = true;
     const accessToken = localStorage.getItem('access_token');
-    let isTokenValid;
-    if (navigator.onLine) {
-      isTokenValid = (await checkToken(accessToken)).error ? false :
-        true;
-    }
+    const isTokenValid = (await checkToken(accessToken)).error ? false : true;
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get('code');
     this.setState({ showWelcomeScreen: !(code || isTokenValid) });
-    if (window.location.href.startsWith('http://localhost' || !navigator.onLine)) {
+    if (window.location.href.startsWith('http://localhost')) {
       getEvents().then((events) => {
         if (this.mounted) {
           this.setState({
