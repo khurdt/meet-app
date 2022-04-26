@@ -56,6 +56,7 @@ class App extends Component {
         });
       };
     }
+    this.checkInternetConnection();
   }
 
   componentWillUnmount() {
