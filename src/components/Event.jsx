@@ -21,8 +21,7 @@ class Event extends React.Component {
   render() {
     const { show } = this.state;
     const { event } = this.props;
-    const formattedDate = event.start.dateTime.slice(0, 10);
-    const formattedTime = event.start.dateTime.slice(11, 16);
+    const formattedDate = new Date(event.start.dateTime).toString().slice(0, 25);
 
     return (
       <>
@@ -40,15 +39,16 @@ class Event extends React.Component {
               </Col>
             </Row>
           </Card.Header>
-          <div className='m-2 time-location'>
-            {formattedDate}
-            <span style={{ paddingRight: '10px', paddingLeft: '10px' }}>
-              {formattedTime}
-            </span> |
-            <span style={{ paddingLeft: '10px' }}>
+          <Row>
+            <div className='text-center mt-1 time-location' style={{ color: '#04ce71' }}>
               {event.location}
-            </span>
-          </div>
+            </div>
+          </Row>
+          <Row>
+            <div className='text-center'>
+              {formattedDate}
+            </div>
+          </Row>
         </div>
         <Modal show={show} onHide={this.handleClose} className='details-modal .modal-content'>
           <Modal.Header closeButton>

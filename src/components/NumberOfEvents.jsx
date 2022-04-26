@@ -74,7 +74,7 @@ class NumberOfEvents extends React.Component {
               <Form.Group className='form-group'>
                 <Row className='row-input'>
                   <Col className='col-input'>
-                    <Form.Label>Number of Events</Form.Label>
+                    <Form.Label>Events By Number</Form.Label>
                     <Form.Control
                       style={{ width: '130px', textAlign: 'center', backgroundColor: '#474242', color: 'white' }}
                       className='input'
@@ -85,7 +85,7 @@ class NumberOfEvents extends React.Component {
                       onChange={(e) => this.handleEventNumber(e.target.value)} />
                   </Col>
                   <Col>
-                    <Form.Label>Events by Genre</Form.Label>
+                    <Form.Label>Events By Genre</Form.Label>
                     <Form.Select
                       style={{ width: '130px', textAlign: 'center', backgroundColor: '#474242', color: 'white' }}
                       aria-label="Default select example"

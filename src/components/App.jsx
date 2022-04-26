@@ -19,10 +19,12 @@ class App extends Component {
       events: [],
       locations: [],
       suggestion: '',
+      genre: 'all',
       number: 0,
       originalEvents: [],
       originalMaxEvents: 0,
       warningText: '',
+      noEventsWarning: 'please try another city or clear filters',
       showWelcomeScreen: undefined,
       active: 'home'
     }
@@ -33,7 +35,8 @@ class App extends Component {
   async componentDidMount() {
     this.mounted = true;
     const accessToken = localStorage.getItem('access_token');
-    const isTokenValid = (await checkToken(accessToken)).error ? false : true;
+    let isTokenValid = (checkToken(accessToken)).error ? false : true;
+    if (accessToken && !navigator.onLine) { isTokenValid = true }
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get('code');
     this.setState({ showWelcomeScreen: !(code || isTokenValid) });
@@ -41,20 +44,26 @@ class App extends Component {
       getEvents().then((events) => {
         if (this.mounted) {
           this.setState({
-            events, locations: extractLocations(events), number: events.length, originalMaxEvents: events.length, originalEvents: events
+            events,
+            locations: extractLocations(events),
+            number: events.length,
+            originalMaxEvents: events.length,
+            originalEvents: events
           });
         }
       });
-    } else {
-      if ((code || isTokenValid) && this.mounted) {
-        getEvents().then((events) => {
-          if (this.mounted) {
-            this.setState({
-              events, locations: extractLocations(events), number: events.length, originalMaxEvents: events.length, originalEvents: events
-            });
-          }
-        });
-      };
+    } else if ((code || isTokenValid) && this.mounted) {
+      getEvents().then((events) => {
+        if (this.mounted) {
+          this.setState({
+            events,
+            locations: extractLocations(events),
+            number: events.length,
+            originalMaxEvents: events.length,
+            originalEvents: events
+          });
+        }
+      });
     }
     this.checkInternetConnection();
   }
@@ -73,27 +82,20 @@ class App extends Component {
   }
 
   updateEvents = (location, number, genre) => {
-    this.setState({ suggestion: location, number: number })
+    this.setState({ suggestion: location, number: number, genre })
+    console.log(location, number, genre);
     getEvents().then((events) => {
-      let numberEvents;
-      let genreEvents;
-      const locationEvents = (location === '') ?
-        events
-        :
-        events.filter((event) => event.location === location);
-      if (!number || !genre) {
-        this.setState({
-          events: locationEvents
-        });
-        numberEvents = locationEvents;
-      } else {
-        numberEvents = locationEvents.slice(0, number);
+      if (!number) {
+        number = this.state.originalMaxEvents
       }
+      const locationEvents = (location === '') ? events : events.filter((event) => event.location === location);
+
       if (genre === 'all') {
-        this.setState({ events: numberEvents });
+        let filteredEvents = locationEvents.slice(0, number);
+        this.setState({ events: filteredEvents })
       } else {
-        genreEvents = numberEvents.filter((event) => event.summary.split(' ').includes(genre));
-        this.setState({ events: genreEvents });
+        let filteredEvents = locationEvents.filter((event) => event.summary.split(' ').includes(genre)).slice(0, number);
+        this.setState({ events: filteredEvents });
       }
     });
     this.checkInternetConnection();
@@ -104,15 +106,22 @@ class App extends Component {
   }
 
   render() {
-    const { number, events, locations, suggestion, originalMaxEvents, originalEvents, warningText, showWelcomeScreen, active } = this.state
+    const { number, events, locations, suggestion, originalMaxEvents, originalEvents, warningText, noEventsWarning, showWelcomeScreen, active, genre } = this.state
 
     if (showWelcomeScreen === undefined) return <div className="App" />
 
     let isEventsLoaded = false;
-    if (events.length === 0) {
+    if (showWelcomeScreen === undefined) {
       isEventsLoaded = false;
     } else {
       isEventsLoaded = true;
+    }
+
+    let noEvents = false;
+    if (events.length === 0) {
+      noEvents = true;
+    } else {
+      noEvents = false;
     }
 
     //page highlighting
@@ -127,13 +136,13 @@ class App extends Component {
 
     return (
       <Router>
-        <Container fluid className="App" style={{ padding: '0px', margin: '0px' }}>
+        <Container fluid className="App" style={{ padding: '0px', margin: '0px', overflow: 'none' }}>
           <div className='navbar-top' style={{ position: 'absolute', top: '0', right: '0', left: '0', width: '100%' }}>
-            <Navbar style={{ backgroundColor: '#eeeeee', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
+            <Navbar style={{ backgroundColor: '#dddcdc', height: '30px', margin: '0', padding: '0', zIndex: '100' }}>
               <Navbar.Brand className='m-auto' style={{ color: '#000', fontSize: '15px' }}>Meet</Navbar.Brand>
             </Navbar>
           </div>
-          <div style={{ height: '5px', marginTop: '30px' }}>
+          <div style={{ height: '0px' }}>
             <WarningAlert className='ml-auto' text={warningText} />
           </div>
 
@@ -143,9 +152,10 @@ class App extends Component {
                 {isEventsLoaded ? (
                   <Container fluid className='pt-4'>
                     <Row className='justify-content-md-center'>
-                      <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} />
+                      <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} genre={genre} />
                       <NumberOfEvents updateEvents={this.updateEvents} suggestion={suggestion} number={number} originalMaxEvents={originalMaxEvents} events={events} />
                       <EventList events={events} updateEvents={this.updateEvents} suggestion={suggestion} />
+                      {noEvents ? (<div className='mt-5'><WarningAlert text={noEventsWarning} /></div>) : (<div />)}
                     </Row>
                   </Container>) : (
                   <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen}
@@ -160,8 +170,8 @@ class App extends Component {
 
           {isEventsLoaded ? (
             <div className='footer'>
-              <Navbar style={{ backgroundColor: '#eeeeee', height: '50px' }}>
-                <Nav className='m-auto' style={{ backgroundColor: '#eeeeee' }}>
+              <Navbar style={{ backgroundColor: '#dddcdc', height: '50px' }}>
+                <Nav className='m-auto' style={{ backgroundColor: '#dddcdc' }}>
                   <Nav.Link as={Link} className='m-1 nav-icon' onClick={() => this.handlePageHighlighting('home')} to='/meet-app'><Home style={homeIcon} className='nav-icon' size={30} /></Nav.Link>
                   <Nav.Link as={Link} className='m-1 nav-icon' to='/meet-app/charts'><BarChart2 style={chartsIcon} className='nav-icon' size={30} /></Nav.Link>
                 </Nav>

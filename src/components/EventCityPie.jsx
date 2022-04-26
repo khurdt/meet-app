@@ -24,7 +24,7 @@ function EventCityPie({ events, locations }) {
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
-      <text style={{ fontSize: '13px' }} x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+      <text style={{ fontSize: '12px' }} x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
         {`${number}`}
       </text>
     );
