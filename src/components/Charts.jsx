@@ -28,16 +28,16 @@ class Charts extends React.Component {
     const { originalEvents, locations } = this.props
     const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#aa33cc', '#cc66aa', '#fd6159', '#bdb6c2', '#8f6677', '#1689d2', '#0d8767', '#f40096', '#FF0000', '#FFFF00', '#000000'];
     return (
-      <Container fluid='true' className='mt-3'>
+      <Container fluid='true' className='mt-5 pt-2' style={{ overflow: 'hidden' }}>
         <Row>
-          <Col>
+          <Col md={6}>
             <EventCityPie events={originalEvents} locations={locations} />
           </Col>
-          <Col>
+          <Col md={6}>
             <EventGenrePie events={originalEvents} />
           </Col>
         </Row>
-        <Row fluid='true' style={{ height: '80vh', zIndex: '-1000' }}>
+        <Row fluid='true' style={{ height: '70vh' }}>
           <ResponsiveContainer width='100%' height={400} >
             {/* <ScatterChart
               width={800}
