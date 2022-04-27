@@ -8,20 +8,13 @@ class NumberOfEvents extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventsNumber: 0,
+      eventsNumber: 250,
       show: false,
       errorText: '',
       genre: 'all',
       day: 'all',
       month: 'all'
     };
-  }
-
-  componentDidMount() {
-    this.setState({ eventsNumber: this.props.originalMaxEvents });
-    if (this.state.eventsNumber == 0) {
-      setTimeout(() => { this.setState({ eventsNumber: this.props.originalMaxEvents }) }, 2000);
-    }
   }
 
   handleEventNumber = (newNumber) => {

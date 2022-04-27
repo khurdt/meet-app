@@ -156,7 +156,7 @@ class App extends Component {
                   <Container fluid className='pt-4'>
                     <Row className='justify-content-md-center'>
                       <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} />
-                      <NumberOfEvents updateEvents={this.updateEvents} suggestion={suggestion} originalMaxEvents={originalMaxEvents} events={events} />
+                      <NumberOfEvents updateEvents={this.updateEvents} suggestion={suggestion} number={number} originalMaxEvents={originalMaxEvents} events={events} />
                       <EventList events={events} updateEvents={this.updateEvents} suggestion={suggestion} />
                       {noEvents ? (<div className='mt-5'><WarningAlert text={noEventsWarning} /></div>) : (<div />)}
                     </Row>
