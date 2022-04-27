@@ -19,8 +19,9 @@ class NumberOfEvents extends React.Component {
 
   componentDidMount() {
     this.setState({ eventsNumber: this.props.originalMaxEvents });
-    if (this.state.eventsNumber === 0) {
-      setTimeout(() => { this.setState({ eventsNumber: this.props.originalMaxEvents }) }, 1000);
+    if (this.state.eventsNumber == 0) {
+      setTimeout(() => { this.setState({ eventsNumber: this.props.originalMaxEvents }) }, 2000);
+      setTimeout(() => { this.setState({ eventsNumber: this.props.originalMaxEvents }) }, 4000);
     }
   }
 
