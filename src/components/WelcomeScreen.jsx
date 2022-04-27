@@ -3,6 +3,7 @@ import './WelcomeScreen.css';
 import { Card } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { ErrorAlert } from './Alert';
+
 function WelcomeScreen(props) {
   const [infoText, setInfoText] = useState('');
 
@@ -16,8 +17,8 @@ function WelcomeScreen(props) {
 
   return props.showWelcomeScreen ?
     (
-      <div className="WelcomeScreen">
-        <Card className='m-auto p-3' style={{ maxWidth: '500px' }}>
+      <div style={{ marginTop: '150px' }} className="WelcomeScreen">
+        <Card className='m-auto p-3' style={{ maxWidth: '500px', backgroundColor: '#474242', color: 'white' }}>
           <Card.Title className='text-center p-2'>Welcome to the Meet app</Card.Title>
           <Card.Text className='text-center'>
             Log in to see upcoming events around the world for
@@ -34,7 +35,7 @@ function WelcomeScreen(props) {
                     alt="Google sign-in"
                   />
                 </div>
-                <button onClick={() => { props.getAccessToken() }}
+                <button onClick={() => { localStorage.clear(); props.getAccessToken() }}
                   rel="nofollow noopener"
                   className="btn-text"
                 >

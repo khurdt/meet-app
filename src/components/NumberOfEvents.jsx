@@ -11,14 +11,16 @@ class NumberOfEvents extends React.Component {
       eventsNumber: 0,
       show: false,
       errorText: '',
-      genre: 'all'
+      genre: 'all',
+      day: 'all',
+      month: 'all'
     };
   }
 
   componentDidMount() {
-    this.setState({ eventsNumber: this.props.number });
-    if (this.props.number === 0) {
-      setTimeout(() => { this.setState({ eventsNumber: this.props.number }) }, 1000);
+    this.setState({ eventsNumber: this.props.originalMaxEvents });
+    if (this.state.eventsNumber === 0) {
+      setTimeout(() => { this.setState({ eventsNumber: this.props.originalMaxEvents }) }, 1000);
     }
   }
 
@@ -34,11 +36,19 @@ class NumberOfEvents extends React.Component {
     this.setState({ genre })
   }
 
+  handleDayOfTheWeek = (day) => {
+    this.setState({ day });
+  }
+
+  handleMonth = (month) => {
+    this.setState({ month });
+  }
+
   handleUpdateEvents = () => {
     if (this.state.eventsNumber == 0) {
       this.setState({ errorText: 'number must be greater than 0' });
     } else {
-      this.props.updateEvents(this.props.suggestion, this.state.eventsNumber, this.state.genre)
+      this.props.updateEvents(this.props.suggestion, this.state.eventsNumber, this.state.genre, this.state.day, this.state.month)
       this.handleClose();
       this.setState({ errorText: '' });
     }
@@ -53,7 +63,9 @@ class NumberOfEvents extends React.Component {
 
   clearFilters = () => {
     this.handleEventNumber(this.props.originalMaxEvents);
-    this.handleGenre('all')
+    this.handleGenre('all');
+    this.handleDayOfTheWeek('all');
+    this.handleMonth('all');
     setTimeout(() => {
       this.handleUpdateEvents();
       this.handleClose();
@@ -61,7 +73,7 @@ class NumberOfEvents extends React.Component {
   }
 
   render() {
-    const { eventsNumber, show, genre } = this.state;
+    const { eventsNumber, show, genre, day, month } = this.state;
     return (
       <>
         <Modal show={show} onHide={this.handleClose} className='filter-modal'>
@@ -97,6 +109,45 @@ class NumberOfEvents extends React.Component {
                       <option value="Node">Node</option>
                       <option value="jQuery">jQuery</option>
                       <option value="AngularJS">AngularJS</option>
+                    </Form.Select>
+                  </Col>
+                  <Col>
+                    <Form.Label>Day of the Week</Form.Label>
+                    <Form.Select
+                      style={{ width: '130px', textAlign: 'center', backgroundColor: '#474242', color: 'white' }}
+                      aria-label="Default select example"
+                      value={day}
+                      onChange={(e) => this.handleDayOfTheWeek(e.target.value)}>
+                      <option value='all'>all</option>
+                      <option value="Mon">Monday</option>
+                      <option value="Tue">Tuesday</option>
+                      <option value="Wed">Wednesday</option>
+                      <option value="Thu">Thursday</option>
+                      <option value="Fri">Friday</option>
+                      <option value="Sat">Saturday</option>
+                      <option value="Sun">Sunday</option>
+                    </Form.Select>
+                  </Col>
+                  <Col>
+                    <Form.Label>Events By Month</Form.Label>
+                    <Form.Select
+                      style={{ width: '130px', textAlign: 'center', backgroundColor: '#474242', color: 'white' }}
+                      aria-label="Default select example"
+                      value={month}
+                      onChange={(e) => this.handleMonth(e.target.value)}>
+                      <option value='all'>all</option>
+                      <option value="Jan">January</option>
+                      <option value="Feb">Feburary</option>
+                      <option value="Mar">March</option>
+                      <option value="Apr">April</option>
+                      <option value="May">May</option>
+                      <option value="Jun">June</option>
+                      <option value="Jul">July</option>
+                      <option value="Aug">August</option>
+                      <option value="Sep">September</option>
+                      <option value="Oct">October</option>
+                      <option value="Nov">November</option>
+                      <option value="Dec">December</option>
                     </Form.Select>
                   </Col>
                 </Row>

@@ -41,7 +41,7 @@ function EventCityPie({ events, locations }) {
   return (
     <ResponsiveContainer height={250}>
       <PieChart width={400} height={400}>
-        <Pie data={data} cx="50%" cy="50%" fill="#8884d8" dataKey="number" innerRadius={85} outerRadius={90}
+        <Pie data={data} cx="50%" cy="50%" fill="#8884d8" dataKey="number" innerRadius={89} outerRadius={90}
           labelLine={false}
           label={renderOtherCustomizedLabel}
         >
@@ -51,7 +51,7 @@ function EventCityPie({ events, locations }) {
             ))
           }
         </Pie>
-        <Pie data={data} dataKey="number" cx="50%" cy="50%" outerRadius={85} fill="#82ca9d" labelLine={false} label={renderCustomizedLabel} >
+        <Pie data={data} dataKey="number" cx="50%" cy="50%" outerRadius={89} fill="#82ca9d" labelLine={false} label={renderCustomizedLabel} >
           {
             data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={colors[index]} />

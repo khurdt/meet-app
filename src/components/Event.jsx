@@ -21,7 +21,7 @@ class Event extends React.Component {
   render() {
     const { show } = this.state;
     const { event } = this.props;
-    const formattedDate = new Date(event.start.dateTime).toString().slice(0, 25);
+    const formattedDate = new Date(event.start.dateTime).toString().slice(0, 21);
 
     return (
       <>
