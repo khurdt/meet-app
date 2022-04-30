@@ -30,7 +30,7 @@ class NumberOfEvents extends React.Component {
   handleMonth = (month) => { this.setState({ month }) };
 
   handleUpdateEvents = () => {
-    if (this.state.eventsNumber == 0) {
+    if (this.state.eventsNumber === 0) {
       this.setState({ errorText: 'number must be greater than 0' });
     } else {
       this.props.updateEvents(this.props.suggestion, this.state.eventsNumber, this.state.genre, this.state.day, this.state.month)

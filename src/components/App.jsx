@@ -95,7 +95,7 @@ class App extends Component {
     day = 'all',
     month = 'all'
   ) => {
-    this.setState({ suggestion: location, number, genre, day, month })
+    this.setState({ suggestion: location, number: number, genre: genre, day: day, month: month })
     getEvents().then((events) => {
       const locationFilter = (location === '') ? events : events.filter((event) => event.location === location);
       const genreFilter = (genre === 'all') ? locationFilter : locationFilter.filter((event) => event.summary.split(' ').includes(genre));
