@@ -25,17 +25,9 @@ class NumberOfEvents extends React.Component {
     }
   }
 
-  handleGenre = (genre) => {
-    this.setState({ genre })
-  }
-
-  handleDayOfTheWeek = (day) => {
-    this.setState({ day });
-  }
-
-  handleMonth = (month) => {
-    this.setState({ month });
-  }
+  handleGenre = (genre) => { this.setState({ genre }) };
+  handleDayOfTheWeek = (day) => { this.setState({ day }) };
+  handleMonth = (month) => { this.setState({ month }) };
 
   handleUpdateEvents = () => {
     if (this.state.eventsNumber == 0) {
@@ -162,8 +154,7 @@ class NumberOfEvents extends React.Component {
         <Row>
           <Col>
             <div
-              className='events-filter mt-4'
-              value={this.props.events.length}>
+              className='events-filter mt-4'>
               Events Showing:
               <div className='event-showing'>
                 {this.props.events.length}

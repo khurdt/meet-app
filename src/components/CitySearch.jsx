@@ -41,7 +41,7 @@ class CitySearch extends React.Component {
       suggestions: [],
       infoText: ''
     });
-    this.props.updateEvents(suggestion, this.props.number);
+    this.props.updateEvents(suggestion, this.props.number, this.props.genre, this.props.day, this.props.month);
   }
 
   render() {

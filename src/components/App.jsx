@@ -20,6 +20,9 @@ class App extends Component {
       locations: [],
       suggestion: '',
       number: 0,
+      genre: '',
+      day: '',
+      month: '',
       originalEvents: [],
       originalMaxEvents: 0,
       warningText: '',
@@ -36,7 +39,7 @@ class App extends Component {
     const accessToken = localStorage.getItem('access_token');
     let isTokenValid;
     if (accessToken && navigator.onLine) {
-      isTokenValid = (await checkToken(accessToken)).error ? false : true;
+      isTokenValid = !(await checkToken(accessToken)).error;
     } else if (accessToken && !navigator.onLine) { isTokenValid = true }
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get("code");
@@ -85,13 +88,15 @@ class App extends Component {
     }
   }
 
-  updateEvents = (location, number, genre, day, month) => {
-    this.setState({ suggestion: location, number: number })
+  updateEvents = (
+    location,
+    number = this.state.originalMaxEvents,
+    genre = 'all',
+    day = 'all',
+    month = 'all'
+  ) => {
+    this.setState({ suggestion: location, number, genre, day, month })
     getEvents().then((events) => {
-      if (!number) { number = this.state.originalMaxEvents };
-      if (!genre) { genre = 'all' };
-      if (!day) { day = 'all' };
-      if (!month) { month = 'all' };
       const locationFilter = (location === '') ? events : events.filter((event) => event.location === location);
       const genreFilter = (genre === 'all') ? locationFilter : locationFilter.filter((event) => event.summary.split(' ').includes(genre));
       const dayFilter = (day === 'all') ? genreFilter : genreFilter.filter((event) => new Date(event.start.dateTime).toString().slice(0, 4).includes(day));
@@ -108,34 +113,19 @@ class App extends Component {
   }
 
   render() {
-    const { number, events, locations, suggestion, originalMaxEvents, originalEvents, warningText, noEventsWarning, showWelcomeScreen, active } = this.state;
+    const { events, locations, suggestion, number, genre, day, month, originalMaxEvents, originalEvents, warningText, noEventsWarning, showWelcomeScreen, active } = this.state;
 
     if (showWelcomeScreen === undefined) return <div className="App" />
     console.log(showWelcomeScreen);
 
-    let noEvents = false;
-    if (events.length === 0) {
-      noEvents = true;
-    } else {
-      noEvents = false;
-    }
+    let noEvents = (events.length === 0);
 
-    let isWelcomeScreenLoaded = true;
-    if (showWelcomeScreen === true) {
-      isWelcomeScreenLoaded = false;
-    } else {
-      isWelcomeScreenLoaded = true;
-    }
+    //if WelcomeScreen is false then true
+    let noWelcomeScreen = !showWelcomeScreen;
 
     //page highlighting
-    let homeIcon, chartsIcon;
-    if (active === 'home') {
-      homeIcon = { color: '#00e2e2' };
-      chartsIcon = { color: '#474242' };
-    } else if (active === 'charts') {
-      homeIcon = { color: '#474242' };
-      chartsIcon = { color: '#00e2e2' };
-    }
+    let homeIcon = { color: (active === 'home') ? '#00e2e2' : '#474242' },
+      chartsIcon = { color: (active === 'charts') ? '#00e2e2' : '#474242' }
 
     return (
       <Router>
@@ -152,13 +142,13 @@ class App extends Component {
           <Route exact path='/meet-app/' render={() => {
             return (
               <div>
-                {isWelcomeScreenLoaded ? (
+                {noWelcomeScreen ? (
                   <Container fluid className='pt-4'>
                     <Row className='justify-content-md-center'>
-                      <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} />
+                      <CitySearch locations={locations} updateEvents={this.updateEvents} number={number} genre={genre} day={day} month={month} />
                       <NumberOfEvents updateEvents={this.updateEvents} suggestion={suggestion} number={number} originalMaxEvents={originalMaxEvents} events={events} />
                       <EventList events={events} updateEvents={this.updateEvents} suggestion={suggestion} />
-                      {noEvents ? (<div className='mt-5'><WarningAlert text={noEventsWarning} /></div>) : (<div />)}
+                      {noEvents && (<div className='mt-5'><WarningAlert text={noEventsWarning} /></div>)}
                     </Row>
                   </Container>) : (
                   <WelcomeScreen showWelcomeScreen={this.state.showWelcomeScreen} getAccessToken={() => { getAccessToken() }} />)}
@@ -170,7 +160,7 @@ class App extends Component {
             return <Charts originalEvents={originalEvents} locations={locations} handlePageHighlighting={this.handlePageHighlighting} />
           }} />
 
-          {isWelcomeScreenLoaded ? (
+          {noWelcomeScreen && (
             <div className='footer'>
               <Navbar style={{ backgroundColor: '#dddcdc', height: '50px' }}>
                 <Nav className='m-auto' style={{ backgroundColor: '#dddcdc' }}>
@@ -178,9 +168,7 @@ class App extends Component {
                   <Nav.Link as={Link} className='m-1 nav-icon' to='/meet-app/charts'><BarChart2 style={chartsIcon} className='nav-icon' size={30} /></Nav.Link>
                 </Nav>
               </Navbar>
-            </div>) : (
-            <div></div>
-          )}
+            </div>)}
         </Container>
       </Router >
     );
