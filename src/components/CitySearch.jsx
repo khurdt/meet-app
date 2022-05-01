@@ -53,9 +53,9 @@ class CitySearch extends React.Component {
               <InfoAlert text={this.state.infoText} />
             </div>
             <Form.Control
-              style={{ backgroundColor: '#474242', color: 'white', borderRadius: '3%' }}
+              style={{ backgroundColor: '#474242', color: 'white', borderRadius: '3%', border: '2px solid #00e2e2' }}
               type='text'
-              className='city mt-4 shadow-none'
+              className='city mt-4 p-2 shadow-none bg'
               placeholder='search for cities'
               value={this.state.query}
               onChange={this.handleInputChanged}
